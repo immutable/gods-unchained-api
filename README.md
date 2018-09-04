@@ -51,18 +51,21 @@ Currently, no rate limits are applied to API usage: this may change in future.
 
 General types:
 
+| Type          | Description  |
 | :-------------: |:-------------:|
 | ![string](https://img.shields.io/badge/-string-lightgrey.svg) | A url encoded string. |
 | ![number](https://img.shields.io/badge/-string-lightgrey.svg) | A decimal number. |
 
 Custom API types:
 
+| Type          | Description  |
 | :-------------: |:-------------:|
 | ![address](https://img.shields.io/badge/-address-green.svg) | A hexadecimal Ethereum address, case insensitive. |
 | ![range](https://img.shields.io/badge/-range-green.svg) | A specific number ```1000```, a range ```1000-2000```, a minimum ```1000-``` or a maximum ```-2000```. |
 
 The valid options for the enumeration types in various apis are set out below:
 
+| Type          | Description  |
 | :-------------: |:-------------:|
 | ![God](https://img.shields.io/badge/-God-blue.svg) | light, death, nature, war, magic, deception |
 | ![PackType](https://img.shields.io/badge/-PackType-blue.svg) | rare, epic, legendary, shiny | 
