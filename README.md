@@ -51,26 +51,25 @@ Currently, no rate limits are applied to API usage: this may change in future.
 
 General types:
 
-- ![string](https://img.shields.io/badge/-string-lightgrey.svg) A url encoded string. 
-- ![number](https://img.shields.io/badge/-string-lightgrey.svg) A decimal number. 
+| :-------------: |:-------------:|
+| ![string](https://img.shields.io/badge/-string-lightgrey.svg) | A url encoded string. |
+| ![number](https://img.shields.io/badge/-string-lightgrey.svg) | A decimal number. |
 
 Custom API types:
 
-- ![address](https://img.shields.io/badge/-address-green.svg) A hexadecimal Ethereum address, case insensitive. 
-- ![range](https://img.shields.io/badge/-range-green.svg) A specific number ```1000```, a range ```1000-2000```, a minimum ```1000-``` or a maximum ```-2000```. 
+| :-------------: |:-------------:|
+| ![address](https://img.shields.io/badge/-address-green.svg) | A hexadecimal Ethereum address, case insensitive. |
+| ![range](https://img.shields.io/badge/-range-green.svg) | A specific number ```1000```, a range ```1000-2000```, a minimum ```1000-``` or a maximum ```-2000```. |
 
 The valid options for the enumeration types in various apis are set out below:
 
-- ![God](https://img.shields.io/badge/-God-blue.svg) light, death, nature, war, 
-- ![PackType](https://img.shields.io/badge/-PackType-blue.svg) rare, epic, legendary, shiny
-- ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg) common, rare, epic, legendary, mythic
-- ![Type](https://img.shields.io/badge/-Type-blue.svg) creature, spell, weapon
-- ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) nether, aether, atlantean, viking, olympian, anubian, amazon
-- ![Quality](https://img.shields.io/badge/-Quality-blue.svg) common, shadow, gold, diamond
-
-### Ranges
-
-Parameters marked as rangeable take in 
+| :-------------: |:-------------:|
+| ![God](https://img.shields.io/badge/-God-blue.svg) | light, death, nature, war, magic, deception |
+| ![PackType](https://img.shields.io/badge/-PackType-blue.svg) | rare, epic, legendary, shiny | 
+| ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg) | common, rare, epic, legendary, mythic |
+| ![Type](https://img.shields.io/badge/-Type-blue.svg) | creature, spell, weapon | 
+| ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | nether, aether, atlantean, viking, olympian, anubian, amazon |
+| ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | common, shadow, gold, diamond |
 
 ### Duplicate Arguments
 
