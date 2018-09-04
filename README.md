@@ -65,7 +65,7 @@ Custom API types:
 
 The valid options for the enumeration types in various apis are set out below:
 
-| Type          | Description  |
+| Type          | Options |
 | :-------------: |:-------------:|
 | ![God](https://img.shields.io/badge/-God-blue.svg) | light, death, nature, war, magic, deception |
 | ![PackType](https://img.shields.io/badge/-PackType-blue.svg) | rare, epic, legendary, shiny | 
@@ -98,7 +98,7 @@ Some of these endpoints return a combination of the above, while some do not: th
 
 ### GET /card/{id}
 
-Parameters
+**Parameters**
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
@@ -110,23 +110,23 @@ Returns the token card with id ```id``` and appropriate metadata. Currently conf
 
 Returns a list of cards. By default, this returns all types of cards: token, shadow and centralized. 
 
-Parameters
+**Parameters**
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
 | user | ![address](https://img.shields.io/badge/-address-green.svg) | get cards owned by a specific address |
 | rarity | ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg) | get cards with a specific rarity |
 | quality | ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | get cards with a specific quality |
+| god | ![God](https://img.shields.io/badge/-God-blue.svg) | get cards with a specific god |
+| type | ![Type](https://img.shields.io/badge/-Type-blue.svg) | get cards with a specific type |
+| tribe | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get cards with a specific tribe |
 | purity | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with a particular purity |
 | mana | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with a specific mana |
 | health | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with a specific health |
 | attack | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with a specific attack |
-| god | ![God](https://img.shields.io/badge/-God-blue.svg) | get cards with a specific god |
-| type | ![Type](https://img.shields.io/badge/-Type-blue.svg) | get cards with a specific type |
-| tribe | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get cards with a specific tribe |
 | proto | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get cards with a specific prototype id |
 
-Response Format
+**Response Format**
 
 ```
 {
@@ -151,13 +151,13 @@ Response Format
 
 Returns the prototype card with id ```id```. 
 
-Parameters
+**Parameters**
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
 | id | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | id of the prototype card |
 
-Response Format
+**Response Format**
 
 ```
 {
@@ -178,18 +178,18 @@ Response Format
 
 Returns a list of prototype cards. 
 
-Parameters
+**Parameters**
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| mana | ![range](https://img.shields.io/badge/-range-green.svg)| get protos with a specific mana |
-| health | ![range](https://img.shields.io/badge/-range-green.svg)| get protos with a specific health |
-| attack | ![range](https://img.shields.io/badge/-range-green.svg)| get protos with a specific attack |
 | god | ![God](https://img.shields.io/badge/-God-blue.svg)| get protos with a specific god |
 | type | ![Type](https://img.shields.io/badge/-Type-blue.svg)| get protos with a specific type |
 | tribe | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg)| get protos with a specific tribe |
+| mana | ![range](https://img.shields.io/badge/-range-green.svg)| get protos with a specific mana |
+| health | ![range](https://img.shields.io/badge/-range-green.svg)| get protos with a specific health |
+| attack | ![range](https://img.shields.io/badge/-range-green.svg)| get protos with a specific attack |
 
-Response Format
+**Response Format**
 
 ```
 {
@@ -217,7 +217,7 @@ Response Format
 
 Returns the pack with index ```index``` from purchase ```id``` from the pack factory with address ```address```. 
 
-Parameters
+**Parameters**
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
@@ -225,7 +225,7 @@ Parameters
 | id | ![number](https://img.shields.io/badge/-number-lightgrey.svg)| id of the purchase |
 | index | ![number](https://img.shields.io/badge/-number-lightgrey.svg)| index of the pack within the purchase |
 
-Response Format
+**Response Format**
 
 ```
 {
@@ -249,7 +249,7 @@ Response Format
 
 Returns a list of packs.
 
-Parameters
+**Parameters**
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
@@ -258,7 +258,7 @@ Parameters
 | factory | ![address](https://img.shields.io/badge/-address-green.svg) | get packs created by a specific factory |
 | purchase | ![range](https://img.shields.io/badge/-range-green.svg) | get packs created in a specific purchase |
 
-Response Format
+**Response Format**
 
 ```
 {
@@ -289,14 +289,14 @@ Response Format
 
 Returns purchase ```id``` from the pack factory at ```address```. 
 
-Parameters
+**Parameters**
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
 | address | ![address](https://img.shields.io/badge/-address-lightgrey.svg) | address of factory |
 | id | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | id of purchase within factory |
 
-Response Format
+**Response Format**
 
 ```
 {
@@ -313,7 +313,7 @@ Response Format
 
 Returns a list of purchases. 
 
-Parameters
+**Parameters**
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
@@ -322,7 +322,7 @@ Parameters
 | factory | ![address](https://img.shields.io/badge/-address-green.svg)| get purchases made in a specific factory |
 | remaining | ![range](https://img.shields.io/badge/-range-green.svg)| get number of packs remaining to be activated from this purchase |
 
-Response Format
+**Response Format**
 
 ```
 {
@@ -347,7 +347,7 @@ Response Format
 
 Returns a list of referrals.
 
-Parameters
+**Parameters**
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
@@ -356,6 +356,7 @@ Parameters
 | purchaser | ![address](https://img.shields.io/badge/-address-green.svg) | get referrals made for a specific user |
 | factory | ![address](https://img.shields.io/badge/-address-green.svg) | get referrals made in a particular factory |
 
+**Response Format**
 
 ```
 {
@@ -376,7 +377,7 @@ Parameters
 
 ### GET /image/{id}
 
-Parameters
+**Parameters**
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
@@ -394,7 +395,7 @@ To help build more effective applications for our ecosystem, we're also providin
 
 Returns an ordered list of users with the most cards which meet particular conditions. 
 
-Parameters
+**Parameters**
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
@@ -402,13 +403,15 @@ Parameters
 | rarity | ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg)| get rank of cards with a specific rarity |
 | quality | ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | get rank of cards with a specific quality |
 | purity | ![range](https://img.shields.io/badge/-range-green.svg) |  get rank of cards with a minimum purity bound |
-| mana | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific mana |
-| health | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific health |
-| attack | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific attack |
 | god | ![God](https://img.shields.io/badge/-God-blue.svg) | get rank of cards with a specific god |
 | type | ![Type](https://img.shields.io/badge/-Type-blue.svg) | get rank of cards with a specific type |
 | tribe | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get rank of cards with a specific tribe |
+| mana | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific mana |
+| health | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific health |
+| attack | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific attack |
 | proto | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get rank of cards with a specific prototype id |
+
+**Response Format**
 
 ```
 {
@@ -428,21 +431,23 @@ Parameters
 
 Returns rarity information about protos. 
 
-Parameters
+**Parameters**
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
 | user | ![address](https://img.shields.io/badge/-address-green.svg) | get rarity info about cards owned by a specific address |
 | rarity | ![rarity](https://img.shields.io/badge/-Rarity-blue.svg) | get rarity info about cards with a specific rarity |
 | quality | ![quality](https://img.shields.io/badge/-Quality-blue.svg) | get rarity info about cards with a specific quality |
+| god | ![god](https://img.shields.io/badge/-God-blue.svg) | get rarity info about cards with a specific god |
+| type | ![type](https://img.shields.io/badge/-Type-blue.svg) | get rarity info about cards with a specific type |
+| tribe | ![tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get rarity info about cards with a specific tribe |
 | purity | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards within a purity range |
 | mana | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards within a mana range |
 | health | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards within a health range |
 | attack | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards with an attack range |
-| god | ![god](https://img.shields.io/badge/-God-blue.svg) | get rarity info about cards with a specific god |
-| type | ![type](https://img.shields.io/badge/-Type-blue.svg) | get rarity info about cards with a specific type |
-| tribe | ![tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get rarity info about cards with a specific tribe |
 | proto | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get rarity info about cards with a specific prototype id |
+
+**Response Format**
 
 ```
 {
