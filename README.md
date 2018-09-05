@@ -182,12 +182,13 @@ Returns a list of prototype cards.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| god | ![God](https://img.shields.io/badge/-God-blue.svg)| get protos with a specific god |
-| type | ![Type](https://img.shields.io/badge/-Type-blue.svg)| get protos with a specific type |
-| tribe | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg)| get protos with a specific tribe |
-| mana | ![range](https://img.shields.io/badge/-range-green.svg)| get protos with a specific mana |
-| health | ![range](https://img.shields.io/badge/-range-green.svg)| get protos with a specific health |
-| attack | ![range](https://img.shields.io/badge/-range-green.svg)| get protos with a specific attack |
+| god | ![God](https://img.shields.io/badge/-God-blue.svg) | get protos with a specific god |
+| rarity | ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg) | get protos with a specific rarity |
+| type | ![Type](https://img.shields.io/badge/-Type-blue.svg) | get protos with a specific type |
+| tribe | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get protos with a specific tribe |
+| mana | ![range](https://img.shields.io/badge/-range-green.svg) | get protos with a specific mana |
+| health | ![range](https://img.shields.io/badge/-range-green.svg) | get protos with a specific health |
+| attack | ![range](https://img.shields.io/badge/-range-green.svg) | get protos with a specific attack |
 
 **Response Format**
 
@@ -213,7 +214,67 @@ Returns a list of prototype cards.
 }
 ```
 
-### GET /factory/{address}/purchase/{id}/purchase/{index}
+### GET /factory/{address}/purchase/{id}
+
+Returns purchase ```id``` from the pack factory at ```address```. 
+
+**Parameters**
+
+| Name        | Type          | Description  |
+| :-------------: |:-------------:| :-----:|
+| address | ![address](https://img.shields.io/badge/-address-lightgrey.svg) | address of factory |
+| id | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | id of purchase within factory |
+
+**Response Format**
+
+```
+{
+    "id":0,
+    "user":"0x3882C6ba6475165aC5257Ddc1D8d7782E7805c28",
+    "count":1,
+    "remaining":0,
+    "factory":"0x000983ba1A675327F0940b56c2d49CD9c042DFBF",
+    "txhash":"0xda2b2956588bd642bed4b0aa8f63c979f4893662dd31c237aa58b173bf4eb223",
+    "type":"shiny"
+}
+```
+
+### GET /purchase
+
+Returns a list of purchases. 
+
+**Parameters**
+
+| Name        | Type          | Description  |
+| :-------------: |:-------------:| :-----:|
+| type | ![PackType](https://img.shields.io/badge/-PackType-blue.svg)| get purchases from a specific pack type |
+| user | ![address](https://img.shields.io/badge/-address-green.svg)| get purchases made by a specific user |
+| factory | ![address](https://img.shields.io/badge/-address-green.svg)| get purchases made in a specific factory |
+| remaining | ![range](https://img.shields.io/badge/-range-green.svg)| get number of packs remaining to be activated from this purchase |
+
+**Response Format**
+
+```
+{
+    "total": 1000,
+    "page": 1,
+    "perPage: 1,
+    "records": [
+        {
+            "id":0,
+            "user":"0x3882C6ba6475165aC5257Ddc1D8d7782E7805c28",
+            "count":1,
+            "remaining":0,
+            "factory":"0x000983ba1A675327F0940b56c2d49CD9c042DFBF",
+            "txhash":"0xda2b2956588bd642bed4b0aa8f63c979f4893662dd31c237aa58b173bf4eb223",
+            "type":"shiny"
+        }
+    ]
+}
+
+```
+
+### GET /factory/{address}/purchase/{id}/pack/{index}
 
 Returns the pack with index ```index``` from purchase ```id``` from the pack factory with address ```address```. 
 
@@ -232,7 +293,8 @@ Returns the pack with index ```index``` from purchase ```id``` from the pack fac
     "purchaseid":11665,
     "purchaseindex":0,
     "purchaseindices":[0,1,2,3,4],
-    "user":"0x62ed0960478Cd1aAA29e9e94928107D7b1E2Cef8","factory":"0x0777F76D195795268388789343068e4fCd286919",
+    "user":"0x62ed0960478Cd1aAA29e9e94928107D7b1E2Cef8",
+    "factory":"0x0777F76D195795268388789343068e4fCd286919",
     "opened":true,
     "cards":[
         {"proto":264,"purity":600},
@@ -270,7 +332,8 @@ Returns a list of packs.
             "purchaseid":11665,
             "purchaseindex":0,
             "purchaseindices":[0,1,2,3,4],
-            "user":"0x62ed0960478Cd1aAA29e9e94928107D7b1E2Cef8","factory":"0x0777F76D195795268388789343068e4fCd286919",
+            "user":"0x62ed0960478Cd1aAA29e9e94928107D7b1E2Cef8",
+            "factory":"0x0777F76D195795268388789343068e4fCd286919",
             "opened":true,
             "cards":[
                 {"proto":264,"purity":600},
@@ -285,63 +348,6 @@ Returns a list of packs.
 }
 ```
 
-### GET /factory/{address}/purchase/{id}
-
-Returns purchase ```id``` from the pack factory at ```address```. 
-
-**Parameters**
-
-| Name        | Type          | Description  |
-| :-------------: |:-------------:| :-----:|
-| address | ![address](https://img.shields.io/badge/-address-lightgrey.svg) | address of factory |
-| id | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | id of purchase within factory |
-
-**Response Format**
-
-```
-{
-    "id":0,
-    "user":"0x3882C6ba6475165aC5257Ddc1D8d7782E7805c28",
-    "count":1,
-    "remaining":0,
-    "factory":"0x000983ba1A675327F0940b56c2d49CD9c042DFBF","txhash":"0xda2b2956588bd642bed4b0aa8f63c979f4893662dd31c237aa58b173bf4eb223",
-    "type":"shiny"
-}
-```
-
-### GET /purchase
-
-Returns a list of purchases. 
-
-**Parameters**
-
-| Name        | Type          | Description  |
-| :-------------: |:-------------:| :-----:|
-| type | ![PackType](https://img.shields.io/badge/-PackType-blue.svg)| get purchases from a specific pack type |
-| user | ![address](https://img.shields.io/badge/-address-green.svg)| get purchases made by a specific user |
-| factory | ![address](https://img.shields.io/badge/-address-green.svg)| get purchases made in a specific factory |
-| remaining | ![range](https://img.shields.io/badge/-range-green.svg)| get number of packs remaining to be activated from this purchase |
-
-**Response Format**
-
-```
-{
-    "total": 1000,
-    "page": 1,
-    "perPage: 1,
-    "records": [
-        {
-            "id":0,
-            "user":"0x3882C6ba6475165aC5257Ddc1D8d7782E7805c28",
-            "count":1,
-            "remaining":0,
-            "factory":"0x000983ba1A675327F0940b56c2d49CD9c042DFBF","txhash":"0xda2b2956588bd642bed4b0aa8f63c979f4893662dd31c237aa58b173bf4eb223",
-            "type":"shiny"
-        }
-    ]
-}
-
-```
 
 ### GET /referral
 
@@ -366,7 +372,9 @@ Returns a list of referrals.
     "records": [
         {
             "id":0,
-            "referrer":"0xb08F95dbC639621DbAf48A472AE8Fce0f6f56a6e","purchaser":"0xE4a8dfcA175cDcA4Ae370f5b7aaff24bD1C9C8eF","factory":"0x1e891C587b345ab02A31b57c1F926fB08913d10D",
+            "referrer":"0xb08F95dbC639621DbAf48A472AE8Fce0f6f56a6e",
+            "purchaser":"0xE4a8dfcA175cDcA4Ae370f5b7aaff24bD1C9C8eF",
+            "factory":"0x1e891C587b345ab02A31b57c1F926fB08913d10D",
             "value":1746000000000000000,
             "count":0,
             "type":"shiny"
