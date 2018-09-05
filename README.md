@@ -55,6 +55,7 @@ General types:
 | :-------------: |:-------------:|
 | ![string](https://img.shields.io/badge/-string-lightgrey.svg) | A url encoded string. |
 | ![number](https://img.shields.io/badge/-string-lightgrey.svg) | A decimal number. |
+| ![boolean](https://img.shields.io/badge/-boolean-lightgrey.svg) | ```true``` or ```false``` |
 
 Custom API types:
 
@@ -250,7 +251,8 @@ Returns a list of purchases.
 | type | ![PackType](https://img.shields.io/badge/-PackType-blue.svg)| get purchases from a specific pack type |
 | user | ![address](https://img.shields.io/badge/-address-green.svg)| get purchases made by a specific user |
 | factory | ![address](https://img.shields.io/badge/-address-green.svg)| get purchases made in a specific factory |
-| remaining | ![range](https://img.shields.io/badge/-range-green.svg)| get number of packs remaining to be activated from this purchase |
+| remaining | ![range](https://img.shields.io/badge/-range-green.svg)| number of packs remaining to be activated from this purchase |
+| count | ![range](https://img.shields.io/badge/-range-green.svg)| number of packs purchased in this purchase |
 
 **Response Format**
 
@@ -319,6 +321,7 @@ Returns a list of packs.
 | user | ![address](https://img.shields.io/badge/-address-green.svg) | get packs purchased by a specific user |
 | factory | ![address](https://img.shields.io/badge/-address-green.svg) | get packs created by a specific factory |
 | purchase | ![range](https://img.shields.io/badge/-range-green.svg) | get packs created in a specific purchase |
+| opened | ![range](https://img.shields.io/badge/-boolean-lightgrey.svg) | whether these packs have been opened |
 
 **Response Format**
 
