@@ -74,6 +74,7 @@ The valid options for the enumeration types in various apis are set out below:
 | ![Type](https://img.shields.io/badge/-Type-blue.svg) | creature, spell, weapon | 
 | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | nether, aether, atlantean, viking, olympian, anubian, amazon |
 | ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | common, shadow, gold, diamond |
+| ![Format](https://img.shields.io/badge/-Format-blue.svg) | format |
 
 ### Duplicate Arguments
 
@@ -89,11 +90,35 @@ Duplicate argument keys will be interpreted disjunctively: this query will retur
 
 There are several 'types' of card in Gods Unchained:
 
-- Token Card: A full ERC721 token card which has been activated.
-- Shadow Card: The most common type of card: locked in, shown on frontend, but not yet converted to ERC721 token to save gas. 
-- Centralized Card: Cards which cannot be traded on the blockchain (part of the core set or an untradeable promotion card). 
+- **Token**: A full ERC721 token card which has been activated.
+- **Model**: The most common type of card: locked in, shown on frontend, but not yet converted to an ERC721 token to save gas. 
+- **Centralized**: Cards which cannot be traded on the blockchain (part of the core set or an untradeable promotion card). 
 
 Some of these endpoints return a combination of the above, while some do not: this is documented by the individual endpoints.
+
+**Proto** cards are also often discussed (including by this API!): this is an abbreviation of prototype, and refers to the underlying stats of the card. 
+
+
+### Summary
+
+| Method        |  Description  | Status |
+| :-------------: | :-----:| :-------: |
+| /card/{id}      | Get a card | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| /card    | Get a list of cards| ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| /proto/{id}      | Get a proto | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| /proto    | Get a list of protos | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| /factory/{address}      | Get a factory | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| /factory   | Get a list of factories | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| /factory/{address}/purchase/{id} | Get a purchase | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| /purchase  | Get a list of factories | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| /factory/{address}/purchase/{id}/pack/{index} | Get a pack | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| /pack  | Get a list of packs | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| /referral     | Get a list of referrals | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| /image/{id} | Get an image | ![Coming](https://img.shields.io/badge/-Live-green.svg) | 
+| /user/{address} | Get a user | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| /ranking | Get a list of users ranked by the number of cards they own | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| /rarity | Get rarity statistics about cards | ![Live](https://img.shields.io/badge/-Live-green.svg) |
+| /user/{address}/inventory | Get a user's inventory | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
 
 ## Core API
 
@@ -107,9 +132,9 @@ Some of these endpoints return a combination of the above, while some do not: th
 
 Returns the token card with id ```id``` and appropriate metadata. Currently conforms to both the generic and Apollo metadata specifications. 
 
-### GET /card 
+### GET /card ![paginated](https://img.shields.io/badge/-Paginated-orange.svg)
 
-Returns a list of cards. By default, this returns all types of cards: token, shadow and centralized. 
+Returns a list of token and shadow cards.
 
 **Parameters**
 
@@ -175,7 +200,7 @@ Returns the prototype card with id ```id```.
 }
 ```
 
-### GET /proto
+### GET /proto ![paginated](https://img.shields.io/badge/-Paginated-orange.svg)
 
 Returns a list of prototype cards. 
 
@@ -215,6 +240,52 @@ Returns a list of prototype cards.
 }
 ```
 
+### GET /factory/{address}
+
+Returns the pack factory at address ```address```. 
+
+**Parameters**
+
+| Name        | Type          | Description  |
+| :-------------: |:-------------:| :-----:|
+| address | ![address](https://img.shields.io/badge/-address-lightgrey.svg) | address of factory |
+
+**Response Format**
+
+```
+{
+    "address":"0x0777f76d195795268388789343068e4fcd286919",
+    "type":"rare"
+}
+```
+
+### GET /factory ![paginated](https://img.shields.io/badge/-Paginated-orange.svg)
+
+Returns a list of pack factories. 
+
+**Parameters**
+
+| Name        | Type          | Description  |
+| :-------------: |:-------------:| :-----:|
+| type | ![PackType](https://img.shields.io/badge/-PackType-blue.svg) | type of pack |
+
+**Response Format**
+
+```
+{
+    "total": 4,
+    "page": 1,
+    "perPage: 1,
+    "records": [
+        {
+            "address":"0x0777f76d195795268388789343068e4fcd286919",
+            "type":"rare"
+        }
+    ]
+}
+
+```
+
 ### GET /factory/{address}/purchase/{id}
 
 Returns purchase ```id``` from the pack factory at ```address```. 
@@ -240,7 +311,7 @@ Returns purchase ```id``` from the pack factory at ```address```.
 }
 ```
 
-### GET /purchase
+### GET /purchase ![paginated](https://img.shields.io/badge/-Paginated-orange.svg)
 
 Returns a list of purchases. 
 
@@ -309,7 +380,7 @@ Returns the pack with index ```index``` from purchase ```id``` from the pack fac
 }
 ```
 
-### GET /pack
+### GET /pack ![paginated](https://img.shields.io/badge/-Paginated-orange.svg)
 
 Returns a list of packs.
 
@@ -352,7 +423,7 @@ Returns a list of packs.
 ```
 
 
-### GET /referral
+### GET /referral ![paginated](https://img.shields.io/badge/-Paginated-orange.svg)
 
 Returns a list of referrals.
 
@@ -388,21 +459,41 @@ Returns a list of referrals.
 
 ### GET /image/{id}
 
+Returns the full image of the card prototype with id ```id```.
+
 **Parameters**
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| format | ![string](https://img.shields.io/badge/-string-lightgrey.svg) |  the format in which the image should be presented |
-
-Returns the full image of the card prototype with id ```id```.
+| format | ![format](https://img.shields.io/badge/-Format-blue.svg) |  the format in which the image should be presented |
 
 Currently does not support returning the image inside the card front - this is planned for a future release, and is likely to become the default. 
+
+### GET /user/{address}
+
+Get a user. 
+
+**Parameters**
+
+| Name        | Type          | Description  |
+| :-------------: |:-------------:| :-----:|
+| address | ![string](https://img.shields.io/badge/-address-green.svg) | the Ethereum address of the user |
+
+**Response Format**
+
+```
+{
+    "username": "ender",
+    "address": "0xC257274276a4E539741Ca11b590B9447B26A8051",
+    "nonce": 0
+}
+```
 
 ## Helper APIs
 
 To help build more effective applications for our ecosystem, we're also providing a couple of helpful API endpoints. These endpoints may be deprecated in future releases, as they are composable from existing endpoints, but provide a convenient interface during the development of nascent GU-focused applications. 
 
-### GET /ranking
+### GET /ranking ![paginated](https://img.shields.io/badge/-Paginated-orange.svg)
 
 Returns an ordered list of users with the most cards which meet particular conditions. 
 
@@ -410,7 +501,6 @@ Returns an ordered list of users with the most cards which meet particular condi
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| user | ![address](https://img.shields.io/badge/-address-green.svg)| get rank of cards owned by a specific address |
 | rarity | ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg)| get rank of cards with a specific rarity |
 | quality | ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | get rank of cards with a specific quality |
 | purity | ![range](https://img.shields.io/badge/-range-green.svg) |  get rank of cards with a minimum purity bound |
@@ -438,7 +528,7 @@ Returns an ordered list of users with the most cards which meet particular condi
 }
 ```
 
-### GET /rarity
+### GET /rarity ![paginated](https://img.shields.io/badge/-Paginated-orange.svg)
 
 Returns rarity information about protos. 
 
@@ -472,6 +562,43 @@ Returns rarity information about protos.
             "shadow": 72,
             "gold": 20,
             "diamond": 3
+        }
+    ]
+}
+```
+
+### GET /user/{address}/inventory ![paginated](https://img.shields.io/badge/-Paginated-orange.svg)
+
+Returns the inventory of the user with address ```address```, including token, shadow and centralized cards. 
+
+**Parameters**
+
+| Name        | Type          | Description  |
+| :-------------: |:-------------:| :-----:|
+| rarity | ![rarity](https://img.shields.io/badge/-Rarity-blue.svg) | get cards with a specific rarity |
+| quality | ![quality](https://img.shields.io/badge/-Quality-blue.svg) | get cards with a specific quality |
+| god | ![god](https://img.shields.io/badge/-God-blue.svg) | get cards with a specific god |
+| type | ![type](https://img.shields.io/badge/-Type-blue.svg) | get cards with a specific type |
+| tribe | ![tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get cards with a specific tribe |
+| purity | ![range](https://img.shields.io/badge/-range-green.svg) | get cards within a purity range |
+| mana | ![range](https://img.shields.io/badge/-range-green.svg) | get cards within a mana range |
+| health | ![range](https://img.shields.io/badge/-range-green.svg) | get cards within a health range |
+| attack | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with an attack range |
+| proto | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get cards with a specific prototype id |
+
+**Response Format**
+
+```
+{
+    "total": 380,
+    "page": 1,
+    "perPage": 1,
+    "records": [
+        {
+            "proto": 1,
+            "purities": [
+                "100", "200", "300", "2999"
+            ]
         }
     ]
 }
