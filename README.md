@@ -1,10 +1,12 @@
 # Gods Unchained API
 
-Public developer API documentation for Gods Unchained, a trading card game on the Ethereum blockchain. 
+Public developer API documentation for [Gods Unchained](https://godsunchained.com), a trading card game on the Ethereum blockchain. 
+
+This version of the API (```v0```) is in a limited public beta: if you discover a bug, report it [here](https://discord.gg/UUn3h45). 
 
 ## Projects 
 
-Here are some third-party tools built using these APIs: 
+Here are some third-party tools built using these APIs, make sure to ask in our [Discord server](https://discord.gg/2FDZrh2) if you're looking for help.  
 
 
 ## General
@@ -22,6 +24,16 @@ This URL must be suffixed with the version being requested (current version: ```
 ```
 https://api.godsunchained.com/v0/
 ```
+
+### Duplicate Arguments
+
+We support queries of the following form:
+
+```
+https://api.godsunchained.com/v0/card?god=nature&god=death
+```
+
+Duplicate argument keys will be interpreted disjunctively: this query will return cards where the god is either nature OR death. 
 
 ### Pagination
 
@@ -46,11 +58,32 @@ Where ```total``` is the number of records discovered by this query.
 
 ### Sorting 
 
-Sorts are applied to endpoints using the ```by``` and ```order``` query parameters:
+Sorts are applied to paginated endpoints using the ```sort``` and ```order``` query parameters:
 
 ```
-https://api.godsunchained.com/v0/
+https://api.godsunchained.com/v0/card?sort=mana&order=asc
 ```
+
+Range and number types can be ordered by ```order=asc``` and ```order=desc```.
+Numerical sorts will default to ```asc```, so the following query is equivalent to the example above:
+
+```
+https://api.godsunchained.com/v0/card?sort=mana
+```
+
+Multiple sort parameters can be applied in one query, and will be applied in order:
+
+
+```
+https://api.godsunchained.com/v0/card?sort=mana&order=asc&sort=health&order=desc
+```
+
+For queries without exact pairings of sort and order parameters (where multiple parameters are applied), it is necessary to mark the order as ```null``
+
+```
+https://api.godsunchained.com/v0/card?sort=mana&order=asc&sort=god&order=null&sort=health&order=desc
+```
+
 
 ### Rate Limits
 
@@ -68,7 +101,7 @@ General types:
 
 Custom API types:
 
-| Type          | Description  |
+| Type          | Description  | 
 | :-------------: |:-------------:|
 | ![address](https://img.shields.io/badge/-address-green.svg) | A hexadecimal Ethereum address, case insensitive. |
 | ![range](https://img.shields.io/badge/-range-green.svg) | A specific number ```1000```, a range ```1000-2000```, a minimum ```1000-``` or a maximum ```-2000```. |
@@ -85,15 +118,6 @@ The valid options for the enumeration types in various apis are set out below:
 | ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | common, shadow, gold, diamond |
 | ![Format](https://img.shields.io/badge/-Format-blue.svg) | full |
 
-### Duplicate Arguments
-
-As is standard with REST APIs, we support queries of the following form:
-
-```
-https://api.godsunchained.com/card?god=nature&god=death
-```
-
-Duplicate argument keys will be interpreted disjunctively: this query will return cards where the god is either nature OR death. 
 
 ### Concepts
 
@@ -152,7 +176,7 @@ Returns a list of token and shadow cards.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| ```user ```| ![address](https://img.shields.io/badge/-address-green.svg) | get cards owned by a specific address |
+| ```user ``` | ![address](https://img.shields.io/badge/-address-green.svg) | get cards owned by a specific address |
 | ```rarity``` | ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg) | get cards with a specific rarity |
 | ```quality``` | ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | get cards with a specific quality |
 | ```god``` | ![God](https://img.shields.io/badge/-God-blue.svg) | get cards with a specific god |
@@ -163,23 +187,6 @@ Returns a list of token and shadow cards.
 | ```health``` | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with a specific health |
 | ```attack``` | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with a specific attack |
 | ```proto``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get cards with a specific prototype id |
-
-**Sort Options**
-
-| By | Order | 
-| :-------------: | :-------------: |
-| ```user``` | |
-| ```rarity``` | |
-| ```quality``` | |
-| ```god``` | |
-| ```type``` | |
-| ```tribe``` | |
-| ```purity``` | ![asc](https://img.shields.io/badge/-asc-purple.svg) ![desc](https://img.shields.io/badge/-desc-purple.svg) |
-| ```mana``` | ![asc](https://img.shields.io/badge/-asc-purple.svg) ![desc](https://img.shields.io/badge/-desc-purple.svg) |
-| ```health``` | ![asc](https://img.shields.io/badge/-asc-purple.svg) ![desc](https://img.shields.io/badge/-desc-purple.svg)  |
-| ```attack``` | ![asc](https://img.shields.io/badge/-asc-purple.svg) ![desc](https://img.shields.io/badge/-desc-purple.svg)  |
-| ```proto``` | |
-
 
 **Response Format**
 
@@ -210,7 +217,7 @@ Returns the prototype card with id ```id```.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| id | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | id of the prototype card |
+| ```id``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | id of the prototype card |
 
 **Response Format**
 
@@ -237,13 +244,13 @@ Returns a list of prototype cards.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| god | ![God](https://img.shields.io/badge/-God-blue.svg) | get protos with a specific god |
-| rarity | ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg) | get protos with a specific rarity |
-| type | ![Type](https://img.shields.io/badge/-Type-blue.svg) | get protos with a specific type |
-| tribe | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get protos with a specific tribe |
-| mana | ![range](https://img.shields.io/badge/-range-green.svg) | get protos with a specific mana |
-| health | ![range](https://img.shields.io/badge/-range-green.svg) | get protos with a specific health |
-| attack | ![range](https://img.shields.io/badge/-range-green.svg) | get protos with a specific attack |
+| ```god``` | ![God](https://img.shields.io/badge/-God-blue.svg) | get protos with a specific god |
+| ```rarity``` | ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg) | get protos with a specific rarity |
+| ```type``` | ![Type](https://img.shields.io/badge/-Type-blue.svg) | get protos with a specific type |
+| ```tribe``` | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get protos with a specific tribe |
+| ```mana``` | ![range](https://img.shields.io/badge/-range-green.svg) | get protos with a specific mana |
+| ```health``` | ![range](https://img.shields.io/badge/-range-green.svg) | get protos with a specific health |
+| ```attack``` | ![range](https://img.shields.io/badge/-range-green.svg) | get protos with a specific attack |
 
 **Response Format**
 
@@ -277,7 +284,7 @@ Returns the pack factory at address ```address```.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| address | ![address](https://img.shields.io/badge/-address-lightgrey.svg) | address of factory |
+| ```address``` | ![address](https://img.shields.io/badge/-address-lightgrey.svg) | address of factory |
 
 **Response Format**
 
@@ -296,7 +303,7 @@ Returns a list of pack factories.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| type | ![PackType](https://img.shields.io/badge/-PackType-blue.svg) | type of pack |
+| ```type``` | ![PackType](https://img.shields.io/badge/-PackType-blue.svg) | type of pack |
 
 **Response Format**
 
@@ -323,8 +330,8 @@ Returns purchase ```id``` from the pack factory at ```address```.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| address | ![address](https://img.shields.io/badge/-address-lightgrey.svg) | address of factory |
-| id | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | id of purchase within factory |
+| ```address``` | ![address](https://img.shields.io/badge/-address-lightgrey.svg) | address of factory |
+| ```id``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | id of purchase within factory |
 
 **Response Format**
 
@@ -348,11 +355,11 @@ Returns a list of purchases.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| type | ![PackType](https://img.shields.io/badge/-PackType-blue.svg)| get purchases from a specific pack type |
-| user | ![address](https://img.shields.io/badge/-address-green.svg)| get purchases made by a specific user |
-| factory | ![address](https://img.shields.io/badge/-address-green.svg)| get purchases made in a specific factory |
-| remaining | ![range](https://img.shields.io/badge/-range-green.svg)| number of packs remaining to be activated from this purchase |
-| count | ![range](https://img.shields.io/badge/-range-green.svg)| number of packs purchased in this purchase |
+| ```type``` | ![PackType](https://img.shields.io/badge/-PackType-blue.svg)| get purchases from a specific pack type |
+| ```user``` | ![address](https://img.shields.io/badge/-address-green.svg)| get purchases made by a specific user |
+| ```factory``` | ![address](https://img.shields.io/badge/-address-green.svg)| get purchases made in a specific factory |
+| ```remaining``` | ![range](https://img.shields.io/badge/-range-green.svg)| number of packs remaining to be activated from this purchase |
+| ```count``` | ![range](https://img.shields.io/badge/-range-green.svg)| number of packs purchased in this purchase |
 
 **Response Format**
 
@@ -384,9 +391,9 @@ Returns the pack with index ```index``` from purchase ```id``` from the pack fac
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| address | ![address](https://img.shields.io/badge/-address-green.svg)| address of the pack factory |
-| id | ![number](https://img.shields.io/badge/-number-lightgrey.svg)| id of the purchase |
-| index | ![number](https://img.shields.io/badge/-number-lightgrey.svg)| index of the pack within the purchase |
+| ```address``` | ![address](https://img.shields.io/badge/-address-green.svg)| address of the pack factory |
+| ```id``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg)| id of the purchase |
+| ```index``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg)| index of the pack within the purchase |
 
 **Response Format**
 
@@ -417,11 +424,12 @@ Returns a list of packs.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| type | ![PackType](https://img.shields.io/badge/-PackType-blue.svg) | get packs of a specific type |
-| user | ![address](https://img.shields.io/badge/-address-green.svg) | get packs purchased by a specific user |
-| factory | ![address](https://img.shields.io/badge/-address-green.svg) | get packs created by a specific factory |
-| purchase | ![range](https://img.shields.io/badge/-range-green.svg) | get packs created in a specific purchase |
-| opened | ![range](https://img.shields.io/badge/-boolean-lightgrey.svg) | whether these packs have been opened |
+| ```type``` | ![PackType](https://img.shields.io/badge/-PackType-blue.svg) | get packs of a specific type |
+| ```user``` | ![address](https://img.shields.io/badge/-address-green.svg) | get packs purchased by a specific user |
+| ```factory``` | ![address](https://img.shields.io/badge/-address-green.svg) | get packs created by a specific factory |
+| ```purchase``` | ![range](https://img.shields.io/badge/-range-green.svg) | get packs created in a specific purchase |
+| ```opened``` | ![boolean](https://img.shields.io/badge/-boolean-lightgrey.svg) | whether these packs have been opened |
+| ```fill``` | ![boolean](https://img.shields.io/badge/-boolean-lightgrey.svg) | whether to fill these packs with their cards |
 
 **Response Format**
 
@@ -460,10 +468,10 @@ Returns a list of referrals.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| type | ![PackType](https://img.shields.io/badge/-PackType-blue.svg) | get referrals with a specific rarity |
-| referrer | ![address](https://img.shields.io/badge/-address-green.svg) | get referrals made by a specific user |
-| purchaser | ![address](https://img.shields.io/badge/-address-green.svg) | get referrals made for a specific user |
-| factory | ![address](https://img.shields.io/badge/-address-green.svg) | get referrals made in a particular factory |
+| ```type``` | ![PackType](https://img.shields.io/badge/-PackType-blue.svg) | get referrals with a specific rarity |
+| ```referrer``` | ![address](https://img.shields.io/badge/-address-green.svg) | get referrals made by a specific user |
+| ```purchaser``` | ![address](https://img.shields.io/badge/-address-green.svg) | get referrals made for a specific user |
+| ```factory``` | ![address](https://img.shields.io/badge/-address-green.svg) | get referrals made in a particular factory |
 
 **Response Format**
 
@@ -494,7 +502,7 @@ Returns the full image of the card prototype with id ```id```.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| format | ![format](https://img.shields.io/badge/-Format-blue.svg) |  the format in which the image should be presented |
+| ```format``` | ![format](https://img.shields.io/badge/-Format-blue.svg) |  the format in which the image should be presented |
 
 Currently does not support returning the image inside the card front - this is planned for a future release, and is likely to become the default. 
 
@@ -506,7 +514,7 @@ Get a user.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| address | ![string](https://img.shields.io/badge/-address-green.svg) | the Ethereum address of the user |
+| ```address``` | ![string](https://img.shields.io/badge/-address-green.svg) | the Ethereum address of the user |
 
 **Response Format**
 
@@ -530,16 +538,16 @@ Returns an ordered list of users with the most cards which meet particular condi
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| rarity | ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg)| get rank of cards with a specific rarity |
-| quality | ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | get rank of cards with a specific quality |
-| purity | ![range](https://img.shields.io/badge/-range-green.svg) |  get rank of cards with a minimum purity bound |
-| god | ![God](https://img.shields.io/badge/-God-blue.svg) | get rank of cards with a specific god |
-| type | ![Type](https://img.shields.io/badge/-Type-blue.svg) | get rank of cards with a specific type |
-| tribe | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get rank of cards with a specific tribe |
-| mana | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific mana |
-| health | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific health |
-| attack | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific attack |
-| proto | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get rank of cards with a specific prototype id |
+| ```rarity``` | ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg)| get rank of cards with a specific rarity |
+| ```quality``` | ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | get rank of cards with a specific quality |
+| ```purity``` | ![range](https://img.shields.io/badge/-range-green.svg) |  get rank of cards with a minimum purity bound |
+| ```god``` | ![God](https://img.shields.io/badge/-God-blue.svg) | get rank of cards with a specific god |
+| ```type``` | ![Type](https://img.shields.io/badge/-Type-blue.svg) | get rank of cards with a specific type |
+| ```tribe``` | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get rank of cards with a specific tribe |
+| ```mana``` | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific mana |
+| ```health``` | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific health |
+| ```attack``` | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific attack |
+| ```proto``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get rank of cards with a specific prototype id |
 
 **Response Format**
 
@@ -565,17 +573,17 @@ Returns rarity information about protos.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| user | ![address](https://img.shields.io/badge/-address-green.svg) | get rarity info about cards owned by a specific address |
-| rarity | ![rarity](https://img.shields.io/badge/-Rarity-blue.svg) | get rarity info about cards with a specific rarity |
-| quality | ![quality](https://img.shields.io/badge/-Quality-blue.svg) | get rarity info about cards with a specific quality |
-| god | ![god](https://img.shields.io/badge/-God-blue.svg) | get rarity info about cards with a specific god |
-| type | ![type](https://img.shields.io/badge/-Type-blue.svg) | get rarity info about cards with a specific type |
-| tribe | ![tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get rarity info about cards with a specific tribe |
-| purity | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards within a purity range |
-| mana | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards within a mana range |
-| health | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards within a health range |
-| attack | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards with an attack range |
-| proto | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get rarity info about cards with a specific prototype id |
+| ```user``` | ![address](https://img.shields.io/badge/-address-green.svg) | get rarity info about cards owned by a specific address |
+| ```rarity``` | ![rarity](https://img.shields.io/badge/-Rarity-blue.svg) | get rarity info about cards with a specific rarity |
+| ```quality``` | ![quality](https://img.shields.io/badge/-Quality-blue.svg) | get rarity info about cards with a specific quality |
+| ```god``` | ![god](https://img.shields.io/badge/-God-blue.svg) | get rarity info about cards with a specific god |
+| ```type``` | ![type](https://img.shields.io/badge/-Type-blue.svg) | get rarity info about cards with a specific type |
+| ```tribe``` | ![tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get rarity info about cards with a specific tribe |
+| ```purity``` | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards within a purity range |
+| ```mana``` | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards within a mana range |
+| ```health``` | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards within a health range |
+| ```attack``` | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards with an attack range |
+| ```proto``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get rarity info about cards with a specific prototype id |
 
 **Response Format**
 
@@ -604,16 +612,16 @@ Returns the inventory of the user with address ```address```, including token, s
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| rarity | ![rarity](https://img.shields.io/badge/-Rarity-blue.svg) | get cards with a specific rarity |
-| quality | ![quality](https://img.shields.io/badge/-Quality-blue.svg) | get cards with a specific quality |
-| god | ![god](https://img.shields.io/badge/-God-blue.svg) | get cards with a specific god |
-| type | ![type](https://img.shields.io/badge/-Type-blue.svg) | get cards with a specific type |
-| tribe | ![tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get cards with a specific tribe |
-| purity | ![range](https://img.shields.io/badge/-range-green.svg) | get cards within a purity range |
-| mana | ![range](https://img.shields.io/badge/-range-green.svg) | get cards within a mana range |
-| health | ![range](https://img.shields.io/badge/-range-green.svg) | get cards within a health range |
-| attack | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with an attack range |
-| proto | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get cards with a specific prototype id |
+| ```rarity``` | ![rarity](https://img.shields.io/badge/-Rarity-blue.svg) | get cards with a specific rarity |
+| ```quality``` | ![quality](https://img.shields.io/badge/-Quality-blue.svg) | get cards with a specific quality |
+| ```god``` | ![god](https://img.shields.io/badge/-God-blue.svg) | get cards with a specific god |
+| ```type``` | ![type](https://img.shields.io/badge/-Type-blue.svg) | get cards with a specific type |
+| ```tribe``` | ![tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get cards with a specific tribe |
+| ```purity``` | ![range](https://img.shields.io/badge/-range-green.svg) | get cards within a purity range |
+| ```mana``` | ![range](https://img.shields.io/badge/-range-green.svg) | get cards within a mana range |
+| ```health``` | ![range](https://img.shields.io/badge/-range-green.svg) | get cards within a health range |
+| ```attack``` | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with an attack range |
+| ```proto``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get cards with a specific prototype id |
 
 **Response Format**
 
@@ -632,3 +640,7 @@ Returns the inventory of the user with address ```address```, including token, s
     ]
 }
 ```
+
+## Deck String APIs
+
+Coming soon. 
