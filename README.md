@@ -1,10 +1,11 @@
 # Gods Unchained API
 
-Public developer API documentation for Gods Unchained. 
+Public developer API documentation for Gods Unchained, a trading card game on the Ethereum blockchain. 
 
-This API is in public beta and is subject to change in future versions. 
+## Projects 
 
-This specification is for version 0. 
+Here are some third-party tools built using these APIs: 
+
 
 ## General
 
@@ -27,7 +28,7 @@ https://api.godsunchained.com/v0/
 All requests which can return multiple objects can be shaped by the ```page``` and ```perPage``` parameters. 
 
 ```
-BASE/proto?page=3&perPage=20
+https://api.godsunchained.com/v0/proto?page=3&perPage=20
 ```
 
 All paginated endpoints return data in the following format:
@@ -42,6 +43,14 @@ All paginated endpoints return data in the following format:
 ```
 
 Where ```total``` is the number of records discovered by this query. 
+
+### Sorting 
+
+Sorts are applied to endpoints using the ```by``` and ```order``` query parameters:
+
+```
+https://api.godsunchained.com/v0/
+```
 
 ### Rate Limits
 
@@ -74,7 +83,7 @@ The valid options for the enumeration types in various apis are set out below:
 | ![Type](https://img.shields.io/badge/-Type-blue.svg) | creature, spell, weapon | 
 | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | nether, aether, atlantean, viking, olympian, anubian, amazon |
 | ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | common, shadow, gold, diamond |
-| ![Format](https://img.shields.io/badge/-Format-blue.svg) | format |
+| ![Format](https://img.shields.io/badge/-Format-blue.svg) | full |
 
 ### Duplicate Arguments
 
@@ -102,23 +111,26 @@ Some of these endpoints return a combination of the above, while some do not: th
 ### Summary
 
 | Method        |  Description  | Status |
-| :-------------: | :-----:| :-------: |
-| /card/{id}      | Get a card | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-| /card    | Get a list of cards| ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-| /proto/{id}      | Get a proto | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-| /proto    | Get a list of protos | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-| /factory/{address}      | Get a factory | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-| /factory   | Get a list of factories | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-| /factory/{address}/purchase/{id} | Get a purchase | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-| /purchase  | Get a list of factories | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-| /factory/{address}/purchase/{id}/pack/{index} | Get a pack | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-| /pack  | Get a list of packs | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-| /referral     | Get a list of referrals | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-| /image/{id} | Get an image | ![Coming](https://img.shields.io/badge/-Live-green.svg) | 
-| /user/{address} | Get a user | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-| /ranking | Get a list of users ranked by the number of cards they own | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-| /rarity | Get rarity statistics about cards | ![Live](https://img.shields.io/badge/-Live-green.svg) |
-| /user/{address}/inventory | Get a user's inventory | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| :-------------| -----:| :-------: |
+| ```/card/{id}``` | Get card | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| ```/card```    | List cards| ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| ```/proto/{id}``` | Get a proto | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| ```/proto```    | List protos | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| ```/factory/{address}``` | Get factory | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| ```/factory```  | Get a list of factories | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| ```/factory/{address}/purchase/{id}``` | Get purchase | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| ```/purchase``` | List factories | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| ```/factory/{address}/purchase/{id}/pack/{index}``` | Get pack | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| ```/pack```  | List packs | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| ```/referral``` | Get a list of referrals | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| ```/image/{id}``` | Get image | ![Coming](https://img.shields.io/badge/-No-orange.svg) | 
+| ```/user/{address}``` | Get user | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+
+| Method        |  Description  | Status |
+| :-------------| -----:| :-------: |
+| ```/ranking``` | List users ranked by cards owned | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| ```/rarity``` | Get rarity statistics | ![Live](https://img.shields.io/badge/-Live-green.svg) |
+| ```/user/{address}/inventory``` | Get a user's inventory | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
 
 ## Core API
 
@@ -140,17 +152,34 @@ Returns a list of token and shadow cards.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| user | ![address](https://img.shields.io/badge/-address-green.svg) | get cards owned by a specific address |
-| rarity | ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg) | get cards with a specific rarity |
-| quality | ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | get cards with a specific quality |
-| god | ![God](https://img.shields.io/badge/-God-blue.svg) | get cards with a specific god |
-| type | ![Type](https://img.shields.io/badge/-Type-blue.svg) | get cards with a specific type |
-| tribe | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get cards with a specific tribe |
-| purity | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with a particular purity |
-| mana | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with a specific mana |
-| health | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with a specific health |
-| attack | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with a specific attack |
-| proto | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get cards with a specific prototype id |
+| ```user ```| ![address](https://img.shields.io/badge/-address-green.svg) | get cards owned by a specific address |
+| ```rarity``` | ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg) | get cards with a specific rarity |
+| ```quality``` | ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | get cards with a specific quality |
+| ```god``` | ![God](https://img.shields.io/badge/-God-blue.svg) | get cards with a specific god |
+| ```type``` | ![Type](https://img.shields.io/badge/-Type-blue.svg) | get cards with a specific type |
+| ```tribe``` | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get cards with a specific tribe |
+| ```purity``` | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with a particular purity |
+| ```mana``` | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with a specific mana |
+| ```health``` | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with a specific health |
+| ```attack``` | ![range](https://img.shields.io/badge/-range-green.svg) | get cards with a specific attack |
+| ```proto``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get cards with a specific prototype id |
+
+**Sort Options**
+
+| By | Order | 
+| :-------------: | :-------------: |
+| ```user``` | |
+| ```rarity``` | |
+| ```quality``` | |
+| ```god``` | |
+| ```type``` | |
+| ```tribe``` | |
+| ```purity``` | ![asc](https://img.shields.io/badge/-asc-purple.svg) ![desc](https://img.shields.io/badge/-desc-purple.svg) |
+| ```mana``` | ![asc](https://img.shields.io/badge/-asc-purple.svg) ![desc](https://img.shields.io/badge/-desc-purple.svg) |
+| ```health``` | ![asc](https://img.shields.io/badge/-asc-purple.svg) ![desc](https://img.shields.io/badge/-desc-purple.svg)  |
+| ```attack``` | ![asc](https://img.shields.io/badge/-asc-purple.svg) ![desc](https://img.shields.io/badge/-desc-purple.svg)  |
+| ```proto``` | |
+
 
 **Response Format**
 
