@@ -584,7 +584,7 @@ Returns rarity information about protos.
 | ```mana``` | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards within a mana range |
 | ```health``` | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards within a health range |
 | ```attack``` | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards with an attack range |
-| ```proto``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get rarity info about cards with a specific prototype id |
+| ```proto``` | `![number](https://img.shields.io/badge/-number-lightgrey.svg) | get rarity info about cards with a specific prototype id |
 
 **Sort Options**
 
@@ -648,7 +648,7 @@ Returns the inventory of the user with address ```address```, including token, s
 
 ## DeckString APIs
 
-[DeckStrings](https://github.com/fuelgames) are a convenient standard for allowing applications to import and export decks. The following APIs are provided 
+[DeckStrings](https://github.com/fuelgames/deckstring) are a convenient standard for allowing applications to import and export decks. The following APIs provide a convenient interface for basic deck string operations. 
 
 ### POST /deck
 
@@ -681,8 +681,7 @@ Decodes a deck from a deck string.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| ```string``` | ![string](https://img.shields.io/badge/-number-lightgrey.svg) | the deck string to be decoded |
-| ```version``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | version of the deck string |
+| ```string``` | ![string](https://img.shields.io/badge/-string-lightgrey.svg) | the deck string to be decoded |
 
 **Response Format** 
 
