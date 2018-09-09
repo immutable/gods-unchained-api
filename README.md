@@ -149,12 +149,11 @@ Some of these endpoints return a combination of the above, while some do not: th
 | ```/referral``` | Get a list of referrals | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
 | ```/image/{id}``` | Get image | ![Coming](https://img.shields.io/badge/-No-orange.svg) | 
 | ```/user/{address}``` | Get user | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-
-| Method        |  Description  | Status |
-| :-------------| -----:| :-------: |
 | ```/ranking``` | List users ranked by cards owned | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
 | ```/rarity``` | Get rarity statistics | ![Live](https://img.shields.io/badge/-Live-green.svg) |
 | ```/user/{address}/inventory``` | Get a user's inventory | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| ```/deck``` | Encode a deck into a deck string | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
+| ```/deck/{string}``` | Decode a deck from a deck string  | ![Live](https://img.shields.io/badge/-Live-green.svg) |
 
 ## Core API
 
@@ -649,20 +648,15 @@ Returns the inventory of the user with address ```address```, including token, s
 
 [DeckStrings](https://github.com/fuelgames) are a convenient standard for allowing applications to import and export decks. The following APIs are provided 
 
-### POST /deck/encode
+### POST /deck
 
 Encodes a deck into a deck string. 
-
-**Parameters**
-
-| Name        | Type          | Description  |
-| :-------------: |:-------------:| :-----:|
-| ```version``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | decode a deck from a deck string with a specific version |
 
 **Request Body** 
 
 ```
 {
+    "version": 1,
     "protos": [
         290, 17, 201, 201, 80, 80, 93, 93, 64, 64, 185, 185, 55, 55, 97, 331, 281, 281, 252, 252, 330,
 		330, 280, 202, 202, 265, 265, 37, 94, 94
@@ -677,7 +671,7 @@ AQEGESVhmAKiAssCAgw3QFBdXrkByQHKAfwBiQKZAsoC
 ```
 
 
-### GET /deck/decode
+### GET /deck/{string}
 
 Decodes a deck from a deck string.  
 
@@ -685,7 +679,8 @@ Decodes a deck from a deck string.
 
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
-| ```version``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | decode a deck from a deck string with a specific version |
+| ```string``` | ![string](https://img.shields.io/badge/-number-lightgrey.svg) | the deck string to be decoded |
+| ```version``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | version of the deck string |
 
 **Response Format** 
 
