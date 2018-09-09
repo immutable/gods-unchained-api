@@ -585,6 +585,10 @@ Returns rarity information about protos.
 | ```attack``` | ![range](https://img.shields.io/badge/-range-green.svg) | get rarity info about cards with an attack range |
 | ```proto``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | get rarity info about cards with a specific prototype id |
 
+**Sort Options**
+
+```proto```, ```plain```, ```shadow```, ```gold```, ```diamond```
+
 **Response Format**
 
 ```
@@ -641,6 +645,57 @@ Returns the inventory of the user with address ```address```, including token, s
 }
 ```
 
-## Deck String APIs
+## DeckString APIs
 
-Coming soon. 
+[DeckStrings](https://github.com/fuelgames) are a convenient standard for allowing applications to import and export decks. The following APIs are provided 
+
+### POST /deck/encode
+
+Encodes a deck into a deck string. 
+
+**Parameters**
+
+| Name        | Type          | Description  |
+| :-------------: |:-------------:| :-----:|
+| ```version``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | decode a deck from a deck string with a specific version |
+
+**Request Body** 
+
+```
+{
+    "protos": [
+        290, 17, 201, 201, 80, 80, 93, 93, 64, 64, 185, 185, 55, 55, 97, 331, 281, 281, 252, 252, 330,
+		330, 280, 202, 202, 265, 265, 37, 94, 94
+    ]
+}
+```
+
+**Response Format**
+
+```
+AQEGESVhmAKiAssCAgw3QFBdXrkByQHKAfwBiQKZAsoC
+```
+
+
+### GET /deck/decode
+
+Decodes a deck from a deck string.  
+
+**Parameters**
+
+| Name        | Type          | Description  |
+| :-------------: |:-------------:| :-----:|
+| ```version``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | decode a deck from a deck string with a specific version |
+
+**Response Format** 
+
+```
+{
+    "version": 1,
+    "protos": [
+        290, 17, 201, 201, 80, 80, 93, 93, 64, 64, 185, 185, 55, 55, 97, 331, 281, 281, 252, 252, 330,
+		330, 280, 202, 202, 265, 265, 37, 94, 94
+    ]
+}
+```
+
