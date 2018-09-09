@@ -2,12 +2,14 @@
 
 Public developer API documentation for [Gods Unchained](https://godsunchained.com), a trading card game on the Ethereum blockchain. 
 
-This version of the API (```v0```) is in a limited public beta: if you discover a bug, report it [here](https://discord.gg/UUn3h45). 
+This version of the API (```v0```) is in a limited public beta: if you discover a bug, or the api returns results contrary to the specification, report it [here](https://discord.gg/UUn3h45). Error specifications will be added soon. 
 
 ## Projects 
 
-Here are some third-party tools built using these APIs, make sure to ask in our [Discord server](https://discord.gg/2FDZrh2) if you're looking for help.  
+Here are some third-party tools built using these APIs, make sure to ask in our [Discord server](https://discord.gg/2FDZrh2) if you're looking for help or you're wondering what to build. 
 
+- [Gods Unchained Info](https://godsunchained.info)
+- [GUDecks](https://gudecks.com)
 
 ## General
 
@@ -539,10 +541,10 @@ Returns an ordered list of users with the most cards which meet particular condi
 | :-------------: |:-------------:| :-----:|
 | ```rarity``` | ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg)| get rank of cards with a specific rarity |
 | ```quality``` | ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | get rank of cards with a specific quality |
-| ```purity``` | ![range](https://img.shields.io/badge/-range-green.svg) |  get rank of cards with a minimum purity bound |
 | ```god``` | ![God](https://img.shields.io/badge/-God-blue.svg) | get rank of cards with a specific god |
 | ```type``` | ![Type](https://img.shields.io/badge/-Type-blue.svg) | get rank of cards with a specific type |
 | ```tribe``` | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get rank of cards with a specific tribe |
+| ```purity``` | ![range](https://img.shields.io/badge/-range-green.svg) |  get rank of cards with a minimum purity bound |
 | ```mana``` | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific mana |
 | ```health``` | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific health |
 | ```attack``` | ![range](https://img.shields.io/badge/-range-green.svg) | get rank of cards with a specific attack |
