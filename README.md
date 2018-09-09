@@ -125,19 +125,19 @@ The valid options for the enumeration types in various apis are set out below:
 
 There are several 'types' of card in Gods Unchained:
 
-- **Token**: A full ERC721 token card which has been activated.
+- **Token**: A full ERC721 token card which has been 'activated'.
 - **Model**: The most common type of card: locked in, shown on frontend, but not yet converted to an ERC721 token to save gas. 
 - **Centralized**: Cards which cannot be traded on the blockchain (part of the core set or an untradeable promotion card). 
 
-Some of these endpoints return a combination of the above, while some do not: this is documented by the individual endpoints.
+Some of these endpoints return a combination of the above, while some do not: this is documented by the individual endpoints. In general, the default is to return only cards which can become ERC721 tokens (i.e. Token and Model cards). 
 
-**Proto** cards are also often discussed (including by this API!): this is an abbreviation of prototype, and refers to the underlying stats of the card. 
+**Prototype** cards, or **protos**, contain the underlying stats for a class of card. 
 
 
 ### Summary
 
 | Method        |  Description  | Status |
-| :-------------| -----:| :-------: |
+| :-------------| :-----| :-------: |
 | ```/card/{id}``` | Get card | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
 | ```/card```    | List cards| ![Live](https://img.shields.io/badge/-Live-green.svg) | 
 | ```/proto/{id}``` | Get a proto | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
