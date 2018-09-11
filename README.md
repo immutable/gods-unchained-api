@@ -66,21 +66,15 @@ Sorts are applied to paginated endpoints using the ```sort``` and ```order``` qu
 https://api.godsunchained.com/v0/card?sort=mana&order=asc
 ```
 
-Range and number types can be ordered by ```order=asc``` and ```order=desc```.
-Numerical sorts will default to ```asc```, so the following query is equivalent to the example above:
-
-```
-https://api.godsunchained.com/v0/card?sort=mana
-```
+Range and number types can be ordered by ```order=asc``` and ```order=desc```, defaulting to ```asc```.
 
 Multiple sort parameters can be applied in one query, and will be applied in order:
-
 
 ```
 https://api.godsunchained.com/v0/card?sort=mana&order=asc&sort=health&order=desc
 ```
 
-For queries without exact pairings of sort and order parameters (where multiple parameters are applied), it is necessary to mark the order as ```null``
+For queries without exact pairings of sort and order parameters (where multiple parameters are applied), it is necessary to mark the order as ```null```:
 
 ```
 https://api.godsunchained.com/v0/card?sort=mana&order=asc&sort=god&order=null&sort=health&order=desc
@@ -98,7 +92,7 @@ General types:
 | Type          | Description  |
 | :-------------: |:-------------:|
 | ![string](https://img.shields.io/badge/-string-lightgrey.svg) | A url encoded string. |
-| ![number](https://img.shields.io/badge/-string-lightgrey.svg) | A decimal number. |
+| ![number](https://img.shields.io/badge/-number-lightgrey.svg) | A decimal number. |
 | ![boolean](https://img.shields.io/badge/-boolean-lightgrey.svg) | ```true``` or ```false``` |
 
 Custom API types:
@@ -504,8 +498,10 @@ Returns the full image of the card prototype with id ```id```.
 | Name        | Type          | Description  |
 | :-------------: |:-------------:| :-----:|
 | ```format``` | ![format](https://img.shields.io/badge/-Format-blue.svg) |  the format in which the image should be presented |
+| ```h``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) |  the height to which the image will be resized |
+| ```w``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) |  the width to which the image will be resized |
 
-Currently does not support returning the image inside the card front - this is planned for a future release, and is likely to become the default. 
+Currently does not support returning the image inside the card front - this is planned for a future release, and is likely to become the default. If either height or width is set to zero, appropriate scaling will be used. 
 
 ### GET /user/{address}
 
