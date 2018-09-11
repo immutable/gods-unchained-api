@@ -143,7 +143,7 @@ Some of these endpoints return a combination of the above, while some do not: th
 | ```/factory/{address}/purchase/{id}/pack/{index}``` | Get pack | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
 | ```/pack```  | List packs | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
 | ```/referral``` | Get a list of referrals | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
-| ```/image/{id}``` | Get image | ![Coming](https://img.shields.io/badge/-No-orange.svg) | 
+| ```/image/{id}``` | Get image | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
 | ```/user/{address}``` | Get user | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
 | ```/ranking``` | List users ranked by cards owned | ![Live](https://img.shields.io/badge/-Live-green.svg) | 
 | ```/rarity``` | Get rarity statistics | ![Live](https://img.shields.io/badge/-Live-green.svg) |
