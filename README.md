@@ -111,7 +111,7 @@ The valid options for the enumeration types in various apis are set out below:
 | ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg) | common, rare, epic, legendary, mythic |
 | ![Type](https://img.shields.io/badge/-Type-blue.svg) | creature, spell, weapon | 
 | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | nether, aether, atlantean, viking, olympian, anubian, amazon |
-| ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | common, shadow, gold, diamond |
+| ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | plain, shadow, gold, diamond |
 | ![Format](https://img.shields.io/badge/-Format-blue.svg) | full, card |
 
 
@@ -165,7 +165,7 @@ Returns the token card with id ```id``` and appropriate metadata. Currently conf
 
 ### GET /card ![paginated](https://img.shields.io/badge/-Paginated-orange.svg)
 
-Returns a list of token and shadow cards.
+Returns a list of token and model cards. 
 
 **Parameters**
 
