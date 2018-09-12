@@ -655,6 +655,7 @@ Encodes a deck into a deck string.
 ```
 {
     "version": 1,
+    "god": "deception",
     "protos": [
         290, 17, 201, 201, 80, 80, 93, 93, 64, 64, 185, 185, 55, 55, 97, 331, 281, 281, 252, 252, 330,
 		330, 280, 202, 202, 265, 265, 37, 94, 94
@@ -665,7 +666,7 @@ Encodes a deck into a deck string.
 **Response Format**
 
 ```
-AQEGESVhmAKiAssCAgw3QFBdXrkByQHKAfwBiQKZAsoC
+AQYBBhElYZgCogLLAgIMN0BQXV65AckBygH8AYkCmQLKAg==
 ```
 
 
@@ -684,6 +685,7 @@ Decodes a deck from a deck string.
 ```
 {
     "version": 1,
+    "god": "deception",
     "protos": [
         290, 17, 201, 201, 80, 80, 93, 93, 64, 64, 185, 185, 55, 55, 97, 331, 281, 281, 252, 252, 330,
 		330, 280, 202, 202, 265, 265, 37, 94, 94
