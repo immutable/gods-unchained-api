@@ -112,7 +112,7 @@ The valid options for the enumeration types in various apis are set out below:
 | ![Type](https://img.shields.io/badge/-Type-blue.svg) | creature, spell, weapon | 
 | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | nether, aether, atlantean, viking, olympian, anubian, amazon |
 | ![Quality](https://img.shields.io/badge/-Quality-blue.svg) | common, shadow, gold, diamond |
-| ![Format](https://img.shields.io/badge/-Format-blue.svg) | full |
+| ![Format](https://img.shields.io/badge/-Format-blue.svg) | full, card |
 
 
 ### Concepts
@@ -491,7 +491,7 @@ Returns a list of referrals.
 
 ### GET /image/{id}
 
-Returns the full image of the card prototype with id ```id```.
+Returns an image based on the card prototype with id ```id```. To get an image in its card form, use the ```format``` and ```quality``` parameters. 
 
 **Parameters**
 
@@ -500,8 +500,8 @@ Returns the full image of the card prototype with id ```id```.
 | ```format``` | ![format](https://img.shields.io/badge/-Format-blue.svg) |  the format in which the image should be presented |
 | ```h``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) |  the height to which the image will be resized |
 | ```w``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) |  the width to which the image will be resized |
+| ```quality``` | ![Quality](https://img.shields.io/badge/-Quality-blue.svg) |  the quality of the card |
 
-Currently does not support returning the image inside the card front - this is planned for a future release, and is likely to become the default. If either height or width is set to zero, appropriate scaling will be used. 
 
 ### GET /user/{address}
 
