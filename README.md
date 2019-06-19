@@ -694,7 +694,8 @@ Decodes a deck from a deck string.
 
 Lists the game modes with some properties.  
 
-**Parameters**
+
+**Response Format**
 
 ```
 [
@@ -789,7 +790,7 @@ Show the rank of a player per game mode.
 
 ### GET /properties ![paginated](https://img.shields.io/badge/-Paginated-orange.svg)
 
-Show the properties of a player.
+Show the properties of the players.
 
 **Parameters**
 
