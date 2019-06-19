@@ -676,9 +676,6 @@ Decodes a deck from a deck string.
 
 **Parameters**
 
-| Name        | Type          | Description  |
-| :-------------: |:-------------:| :-----:|
-| ```string``` | ![string](https://img.shields.io/badge/-string-lightgrey.svg) | the deck string to be decoded |
 
 **Response Format** 
 
@@ -693,3 +690,156 @@ Decodes a deck from a deck string.
 }
 ```
 
+### GET /mode 
+
+Lists the game modes with some properties.  
+
+**Parameters**
+
+```
+[
+ {
+  "id": 2,
+  "name": "Constructed",
+  "description": "Classic Contructed",
+  "live": true,
+  "required_level": 0,
+  "properties": {
+   "type": 4,
+   "image_url": "https://images.godsunchained.com/misc/classic_constructed.webp"
+  }
+ }
+]
+```
+
+### GET /match ![paginated](https://img.shields.io/badge/-Paginated-orange.svg)
+
+Show the match results
+
+**Parameters**
+
+| Name        | Type          | Description  |
+| :-------------: |:-------------:| :-----:|
+| ```start_time``` | ![range](https://img.shields.io/badge/-range-green.svg) | start time of the match (UNIX epoch format) |
+| ```end_time``` | ![range](https://img.shields.io/badge/-range-green.svg) | end time of the match (UNIX epoch format) |
+
+
+**Response Format**
+
+```
+{
+ "total": 1447,
+ "page": 1,
+ "perPage": 20,
+ "records": [
+  {
+   "player_won": 9127,
+   "player_lost": 6008,
+   "game_mode": 2,
+   "game_id": "b64865e2-682b-4a23-af11-20aad0cfd47c",
+   "start_time": 1560734177,
+   "end_time": 1560734355,
+   "player_info": [{"god":"nature","cards":[301,121,68,237,976,1000,973,523,910,385,494,467,905,519,907,507,919,916,906,442,386,537,471,928,475,906,454,909,945,920],"global":false,"health":30,"status":"connected","user_id":9127},{"god":"Magic","cards":[401,401,404,404,908,908,455,455,535,535,467,467,926,926,981,981,402,402,504,504,396,396,406,406,983,983,407,407,1002,1002],"global":true,"health":0,"status":"connected","user_id":6008}],
+   "total_turns": 6
+  }
+ ]
+}
+```
+
+### GET /rank ![paginated](https://img.shields.io/badge/-Paginated-orange.svg)
+
+Show the rank of a player per game mode.
+
+**Parameters**
+
+| Name        | Type          | Description  |
+| :-------------: |:-------------:| :-----:|
+| ```user_id``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | Apollo ID of the user |
+| ```game_mode``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | Game mode of the rank |
+
+
+**Response Format**
+
+```
+{
+ "total": 543,
+ "page": 1,
+ "perPage": 20,
+ "records": [
+  {
+   "user_id": 9115,
+   "game_mode": 1,
+   "rating": 952,
+   "rank_level": 1,
+   "win_points": 82.849302,
+   "loss_points": 86.586029
+  },
+  {
+   "user_id": 2317,
+   "game_mode": 2,
+   "rating": 875.627936,
+   "rank_level": 1,
+   "win_points": 48.249483,
+   "loss_points": 89.55682
+  }
+ ]
+}
+```
+
+
+### GET /properties ![paginated](https://img.shields.io/badge/-Paginated-orange.svg)
+
+Show the properties of a player.
+
+**Parameters**
+
+| Name        | Type          | Description  |
+| :-------------: |:-------------:| :-----:|
+| ```user_id``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | Apollo ID of the user |
+
+**Response Format**
+
+```
+{
+ "total": 8298,
+ "page": 1,
+ "perPage": 20,
+ "records": [
+  {
+   "user_id": 612,
+   "xp_level": 0,
+   "total_xp": 0,
+   "xp_to_next": 25,
+   "won_matches": 0,
+   "lost_matches": 0
+  },
+  {
+   "user_id": 706,
+   "xp_level": 36,
+   "total_xp": 25850,
+   "xp_to_next": 350,
+   "won_matches": 51,
+   "lost_matches": 40
+  }
+ ]
+}
+```
+
+
+### GET /predict
+
+Calculates the probability of a match based on the rating of the players (using Elo rating algorithm)
+
+**Parameters**
+
+| Name        | Type          | Description  |
+| :-------------: |:-------------:| :-----:|
+| ```user_id``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | Apollo ID of the user |
+| ```opponent_id``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | Apollo ID of the opponent |
+| ```game_mode``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | the game mode of the match |
+
+**Response Format**
+
+```
+0.6717130465747431
+```
