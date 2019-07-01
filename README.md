@@ -724,6 +724,7 @@ Show the match results
 | ```start_time``` | ![range](https://img.shields.io/badge/-range-green.svg) | start time of the match (UNIX epoch format) |
 | ```end_time``` | ![range](https://img.shields.io/badge/-range-green.svg) | end time of the match (UNIX epoch format) |
 
+**Important**: total_turns field will be renamed to total_rounds on a later update, we will continue to support it while we ensure our community is using the new field name.
 
 **Response Format**
 
@@ -741,7 +742,8 @@ Show the match results
    "start_time": 1560734177,
    "end_time": 1560734355,
    "player_info": [{"god":"nature","cards":[301,121,68,237,976,1000,973,523,910,385,494,467,905,519,907,507,919,916,906,442,386,537,471,928,475,906,454,909,945,920],"global":false,"health":30,"status":"connected","user_id":9127},{"god":"Magic","cards":[401,401,404,404,908,908,455,455,535,535,467,467,926,926,981,981,402,402,504,504,396,396,406,406,983,983,407,407,1002,1002],"global":true,"health":0,"status":"connected","user_id":6008}],
-   "total_turns": 6
+   "total_turns": 6, 
+   "total_rounds": 6
   }
  ]
 }
@@ -812,7 +814,8 @@ Show the properties of the players.
    "total_xp": 0,
    "xp_to_next": 25,
    "won_matches": 0,
-   "lost_matches": 0
+   "lost_matches": 0,
+   "username": "bestplayer"
   },
   {
    "user_id": 706,
@@ -820,7 +823,8 @@ Show the properties of the players.
    "total_xp": 25850,
    "xp_to_next": 350,
    "won_matches": 51,
-   "lost_matches": 40
+   "lost_matches": 40,
+   "username": "broken_player"
   }
  ]
 }
