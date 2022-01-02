@@ -1,0 +1,3279 @@
+openapi: 3.1.0
+info:
+  title: Gods Unchained API
+  version: 0
+  summary: Gods Unchained API
+  description: ''
+  contact:
+    url: 'https://github.com/immutable/gods-unchained-api'
+servers:
+  - url: 'https://api.godsunchained.com/v0'
+    description: API Server
+paths:
+  /card:
+    parameters: []
+    get:
+      summary: ''
+      tags: []
+      operationId: listCards
+      description: Returns a list of token and model cards
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: user
+          description: get cards owned by a specific address
+        - $ref: '#/components/parameters/rarity'
+        - $ref: '#/components/parameters/quality'
+        - $ref: '#/components/parameters/god'
+        - $ref: '#/components/parameters/type'
+        - $ref: '#/components/parameters/tribe'
+        - $ref: '#/components/parameters/purity'
+        - $ref: '#/components/parameters/mana'
+        - $ref: '#/components/parameters/health'
+        - $ref: '#/components/parameters/attack'
+        - $ref: '#/components/parameters/proto'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/order'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenModelCardList'
+  '/card/{id}':
+    parameters:
+      - schema:
+          type: number
+        name: id
+        in: path
+        required: true
+        description: ERC721 id of the card
+    get:
+      summary: ''
+      operationId: getCard
+      description: Returns the token card with id and appropriate metadata. Currently conforms to both the generic and Apollo metadata specifications.
+  /proto:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrototypeCardList'
+      operationId: listProtos
+      description: List protos
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/god'
+        - $ref: '#/components/parameters/rarity'
+        - $ref: '#/components/parameters/type'
+        - $ref: '#/components/parameters/tribe'
+        - $ref: '#/components/parameters/mana'
+        - $ref: '#/components/parameters/attack'
+        - $ref: '#/components/parameters/health'
+    parameters: []
+  '/proto/{id}':
+    parameters:
+      - schema:
+          type: number
+        name: id
+        in: path
+        required: true
+        description: id of the prototype card
+    get:
+      summary: Your GET endpoint
+      tags: []
+      operationId: getProto
+      description: Returns the prototype card with id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrototypeCard'
+              examples:
+                Example:
+                  value:
+                    id: 300
+                    name: Guerilla Sabotage
+                    effect: Deal 4 damage to a random enemy creature. Draw a card.
+                    god: Nature
+                    rarity: Common
+                    tribe:
+                      String: ''
+                      Valid: false
+                    mana: 4
+                    attack:
+                      Int64: 0
+                      Valid: false
+                    health:
+                      Int64: 0
+                      Valid: false
+                    type: Spell
+  '/factory/{address}':
+    parameters:
+      - schema:
+          type: string
+        name: address
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackFactory'
+      operationId: getPackFactory
+      description: Returns the pack factory at *address*.
+  /factory:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  total:
+                    type: number
+                  page:
+                    type: number
+                  perPage:
+                    type: number
+                  records:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      required:
+                        - address
+                        - type
+                      properties:
+                        address:
+                          type: string
+                          minLength: 1
+                        type:
+                          type: string
+                          minLength: 1
+                required:
+                  - total
+                  - page
+                  - perPage
+                  - records
+                x-examples:
+                  example-1:
+                    total: 4
+                    page: 1
+                    perPage: 1
+                    records:
+                      - address: '0x0777f76d195795268388789343068e4fcd286919'
+                        type: rare
+              examples:
+                Example:
+                  value:
+                    total: 4
+                    page: 1
+                    perPage: 1
+                    records:
+                      - address: '0x0777f76d195795268388789343068e4fcd286919'
+                        type: rare
+      operationId: listFactories
+      description: Get a list of factories
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - $ref: '#/components/parameters/type'
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/order'
+  '/factory/{address}/purchase/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: address
+        in: path
+        required: true
+        description: address of factory
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: id of purchase within factory
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  id:
+                    type: number
+                  user:
+                    type: string
+                    minLength: 1
+                  count:
+                    type: number
+                  remaining:
+                    type: number
+                  factory:
+                    type: string
+                    minLength: 1
+                  txhash:
+                    type: string
+                    minLength: 1
+                  type:
+                    type: string
+                    minLength: 1
+                required:
+                  - id
+                  - user
+                  - count
+                  - remaining
+                  - factory
+                  - txhash
+                  - type
+                x-examples:
+                  example-1:
+                    id: 0
+                    user: '0x3882C6ba6475165aC5257Ddc1D8d7782E7805c28'
+                    count: 1
+                    remaining: 0
+                    factory: '0x000983ba1A675327F0940b56c2d49CD9c042DFBF'
+                    txhash: '0xda2b2956588bd642bed4b0aa8f63c979f4893662dd31c237aa58b173bf4eb223'
+                    type: shiny
+              examples:
+                Example:
+                  value:
+                    id: 0
+                    user: '0x3882C6ba6475165aC5257Ddc1D8d7782E7805c28'
+                    count: 1
+                    remaining: 0
+                    factory: '0x000983ba1A675327F0940b56c2d49CD9c042DFBF'
+                    txhash: '0xda2b2956588bd642bed4b0aa8f63c979f4893662dd31c237aa58b173bf4eb223'
+                    type: shiny
+      operationId: getPurchase
+      description: Returns purchase id from the pack factory at address
+  /purchase:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseList'
+      operationId: listPurchases
+      description: Returns a list of purchases
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - $ref: '#/components/parameters/type'
+        - schema:
+            type: string
+          in: query
+          name: user
+          description: get purchases made by a specific user
+        - schema:
+            type: string
+          in: query
+          name: factory
+          description: get purchases made in a specific factory
+        - schema:
+            type: string
+          in: query
+          name: remaining
+          description: number of packs remaining to be activated from this purchase
+        - schema:
+            type: string
+          in: query
+          name: count
+          description: number of packs purchased in this purchase
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/order'
+  '/factory/{address}/purchase/{id}/pack/{index}':
+    parameters:
+      - schema:
+          type: string
+        name: address
+        in: path
+        required: true
+        description: address of the pack factory
+      - schema:
+          type: number
+        name: id
+        in: path
+        required: true
+        description: id of the purchase
+      - schema:
+          type: number
+        name: index
+        in: path
+        required: true
+        description: index of the pack within the purchase
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    purchaseid: 11665
+                    purchaseindex: 0
+                    purchaseindices:
+                      - 0
+                      - 1
+                      - 2
+                      - 3
+                      - 4
+                    user: '0x62ed0960478Cd1aAA29e9e94928107D7b1E2Cef8'
+                    factory: '0x0777F76D195795268388789343068e4fCd286919'
+                    opened: true
+                    cards:
+                      - proto: 264
+                        purity: 600
+                      - proto: 38
+                        purity: 990
+                      - proto: 299
+                        purity: 549
+                      - proto: 347
+                        purity: 275
+                      - proto: 291
+                        purity: 850
+                    type: rare
+                properties:
+                  purchaseid:
+                    type: number
+                  purchaseindex:
+                    type: number
+                  purchaseindices:
+                    type: array
+                    items:
+                      type: number
+                  user:
+                    type: string
+                    minLength: 1
+                  factory:
+                    type: string
+                    minLength: 1
+                  opened:
+                    type: boolean
+                  cards:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        proto:
+                          type: number
+                        purity:
+                          type: number
+                      required:
+                        - proto
+                        - purity
+                  type:
+                    type: string
+                    minLength: 1
+                required:
+                  - purchaseid
+                  - purchaseindex
+                  - purchaseindices
+                  - user
+                  - factory
+                  - opened
+                  - cards
+                  - type
+              examples:
+                Example:
+                  value:
+                    purchaseid: 11665
+                    purchaseindex: 0
+                    purchaseindices:
+                      - 0
+                      - 1
+                      - 2
+                      - 3
+                      - 4
+                    user: '0x62ed0960478Cd1aAA29e9e94928107D7b1E2Cef8'
+                    factory: '0x0777F76D195795268388789343068e4fCd286919'
+                    opened: true
+                    cards:
+                      - proto: 264
+                        purity: 600
+                      - proto: 38
+                        purity: 990
+                      - proto: 299
+                        purity: 549
+                      - proto: 347
+                        purity: 275
+                      - proto: 291
+                        purity: 850
+                    type: rare
+      operationId: getPack
+      description: Returns the pack with index from purchase id from the pack factory with address.
+  /pack:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackList'
+      operationId: listPacks
+      description: Returns a list of packs
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/type'
+        - schema:
+            type: string
+          in: query
+          name: user
+          description: get packs purchased by a specific user
+        - schema:
+            type: string
+          in: query
+          name: factory
+          description: get packs created by a specific factory
+        - schema:
+            type: string
+          in: query
+          name: purchase
+          description: get packs created in a specific purchase range
+        - schema:
+            type: boolean
+          in: query
+          name: opened
+          description: whether these packs have been opened
+        - schema:
+            type: boolean
+          in: query
+          name: fill
+          description: whether to fill these packs with their cards
+  /referral:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferralList'
+      operationId: listReferrals
+      description: Returns a list of referrals
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/type'
+        - schema:
+            type: string
+          in: query
+          name: referrer
+          description: get referrals made by a specific user
+        - schema:
+            type: string
+          in: query
+          name: purchaser
+          description: get referrals made for a specific user
+        - schema:
+            type: string
+          in: query
+          name: factory
+          description: get referrals made in a particular factory
+  '/image/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: card prototype id
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: getCardPrototypeImage
+      description: 'Returns an image based on the card prototype with id. To get an image in its card form, use the format and quality parameters.'
+      parameters:
+        - $ref: '#/components/parameters/format'
+        - schema:
+            type: number
+          in: query
+          name: h
+          description: the height to which the image will be resized
+        - schema:
+            type: number
+          in: query
+          name: w
+          description: the width to which the image will be resized
+        - $ref: '#/components/parameters/quality'
+  '/user/{address}':
+    parameters:
+      - schema:
+          type: string
+        name: address
+        in: path
+        required: true
+        description: the Ethereum address of the user
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: getUser
+      description: Get a user
+      parameters: []
+  /rarity:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  proto_id:
+                    type: object
+                    properties:
+                      proto:
+                        type: number
+                      plain:
+                        type: string
+                        minLength: 1
+                      shadow:
+                        type: string
+                        minLength: 1
+                      gold:
+                        type: string
+                        minLength: 1
+                      diamond:
+                        type: string
+                        minLength: 1
+                    required:
+                      - proto
+                      - plain
+                      - shadow
+                      - gold
+                      - diamond
+                required:
+                  - proto_id
+                x-examples:
+                  example-1:
+                    proto_id:
+                      proto: 1
+                      plain: '11581'
+                      shadow: '652'
+                      gold: '131'
+                      diamond: '22'
+              examples:
+                Example:
+                  value:
+                    '100':
+                      proto: 100
+                      plain: '2165'
+                      shadow: '161'
+                      gold: '43'
+                      diamond: '5'
+                    '101':
+                      proto: 101
+                      plain: '33034'
+                      shadow: '1719'
+                      gold: '313'
+                      diamond: '60'
+      operationId: listRarity
+      description: Returns rarity information about protos
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - schema:
+            type: string
+            enum:
+              - proto
+              - plain
+              - shadow
+              - gold
+              - diamond
+          in: query
+          name: sort
+        - $ref: '#/components/parameters/order'
+        - schema:
+            type: string
+          in: query
+          name: user
+          description: get rarity info about cards owned by a specific address
+        - $ref: '#/components/parameters/rarity'
+        - $ref: '#/components/parameters/quality'
+        - $ref: '#/components/parameters/god'
+        - $ref: '#/components/parameters/type'
+        - $ref: '#/components/parameters/tribe'
+        - $ref: '#/components/parameters/purity'
+        - $ref: '#/components/parameters/mana'
+        - $ref: '#/components/parameters/health'
+        - $ref: '#/components/parameters/attack'
+        - $ref: '#/components/parameters/proto'
+  '/user/{address}/inventory':
+    parameters:
+      - schema:
+          type: string
+        name: address
+        in: path
+        required: true
+        description: user ethereum address
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: getUserInventory
+      description: 'Returns the inventory of the user with address address, including token, shadow and centralized cards'
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/rarity'
+        - $ref: '#/components/parameters/quality'
+        - $ref: '#/components/parameters/god'
+        - $ref: '#/components/parameters/type'
+        - $ref: '#/components/parameters/tribe'
+        - $ref: '#/components/parameters/purity'
+        - $ref: '#/components/parameters/mana'
+        - $ref: '#/components/parameters/health'
+        - $ref: '#/components/parameters/attack'
+        - $ref: '#/components/parameters/proto'
+  /deck:
+    post:
+      summary: ''
+      operationId: encodeDeck
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Example:
+                  value: AQYBBhElYZgCogLLAgIMN0BQXV65AckBygH8AYkCmQLKAg==
+      description: Encode a deck into a deck string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  version: 1
+                  god: deception
+                  protos:
+                    - 290
+                    - 17
+                    - 201
+                    - 201
+                    - 80
+                    - 80
+                    - 93
+                    - 93
+                    - 64
+                    - 64
+                    - 185
+                    - 185
+                    - 55
+                    - 55
+                    - 97
+                    - 331
+                    - 281
+                    - 281
+                    - 252
+                    - 252
+                    - 330
+                    - 330
+                    - 280
+                    - 202
+                    - 202
+                    - 265
+                    - 265
+                    - 37
+                    - 94
+                    - 94
+              properties:
+                version:
+                  type: number
+                god:
+                  type: string
+                  minLength: 1
+                protos:
+                  type: array
+                  items:
+                    type: number
+              required:
+                - version
+                - god
+                - protos
+  '/deck/{string}':
+    parameters:
+      - schema:
+          type: string
+        name: string
+        in: path
+        required: true
+        description: deck string
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    version: 1
+                    god: deception
+                    protos:
+                      - 290
+                      - 17
+                      - 201
+                      - 201
+                      - 80
+                      - 80
+                      - 93
+                      - 93
+                      - 64
+                      - 64
+                      - 185
+                      - 185
+                      - 55
+                      - 55
+                      - 97
+                      - 331
+                      - 281
+                      - 281
+                      - 252
+                      - 252
+                      - 330
+                      - 330
+                      - 280
+                      - 202
+                      - 202
+                      - 265
+                      - 265
+                      - 37
+                      - 94
+                      - 94
+                properties:
+                  version:
+                    type: number
+                  god:
+                    type: string
+                    minLength: 1
+                  protos:
+                    type: array
+                    items:
+                      type: number
+                required:
+                  - version
+                  - god
+                  - protos
+              examples:
+                Example:
+                  value:
+                    version: 1
+                    god: deception
+                    protos:
+                      - 290
+                      - 17
+                      - 201
+                      - 201
+                      - 80
+                      - 80
+                      - 93
+                      - 93
+                      - 64
+                      - 64
+                      - 185
+                      - 185
+                      - 55
+                      - 55
+                      - 97
+                      - 331
+                      - 281
+                      - 281
+                      - 252
+                      - 252
+                      - 330
+                      - 330
+                      - 280
+                      - 202
+                      - 202
+                      - 265
+                      - 265
+                      - 37
+                      - 94
+                      - 94
+      operationId: decodeDeckString
+      description: Decodes a deck from a deck string
+components:
+  schemas:
+    PrototypeCard:
+      description: ''
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+          minLength: 1
+        effect:
+          type: string
+          minLength: 1
+        god:
+          type: string
+          minLength: 1
+        rarity:
+          type: string
+          minLength: 1
+        tribe:
+          type: object
+          properties:
+            String:
+              type: string
+              minLength: 1
+            Valid:
+              type: boolean
+          required:
+            - String
+            - Valid
+        mana:
+          type: number
+        attack:
+          type: object
+          properties:
+            Int64:
+              type: number
+            Valid:
+              type: boolean
+          required:
+            - Int64
+            - Valid
+        health:
+          type: object
+          properties:
+            Int64:
+              type: number
+            Valid:
+              type: boolean
+          required:
+            - Int64
+            - Valid
+        type:
+          type: string
+          minLength: 1
+        set:
+          type: string
+          minLength: 1
+        collectable:
+          type: boolean
+        live:
+          type: string
+          minLength: 1
+        art_id:
+          type: string
+          minLength: 1
+        lib_id:
+          type: string
+          minLength: 1
+      required:
+        - id
+        - name
+        - effect
+        - god
+        - rarity
+        - tribe
+        - mana
+        - attack
+        - health
+        - type
+        - set
+        - collectable
+        - live
+        - art_id
+        - lib_id
+      x-examples:
+        example-1:
+          id: 279
+          name: Seraph
+          effect: 'Frontline. Protected.<br>Afterlife: Set the attack of all enemy creatures to 1.'
+          god: light
+          rarity: epic
+          tribe:
+            String: aether
+            Valid: true
+          mana: 5
+          attack:
+            Int64: 1
+            Valid: true
+          health:
+            Int64: 1
+            Valid: true
+          type: creature
+          set: genesis
+          collectable: true
+          live: 'true'
+          art_id: C175
+          lib_id: L1-279
+      examples:
+        - id: 279
+          name: Seraph
+          effect: 'Frontline. Protected.<br>Afterlife: Set the attack of all enemy creatures to 1.'
+          god: light
+          rarity: epic
+          tribe:
+            String: aether
+            Valid: true
+          mana: 5
+          attack:
+            Int64: 1
+            Valid: true
+          health:
+            Int64: 1
+            Valid: true
+          type: creature
+          set: genesis
+          collectable: true
+          live: 'true'
+          art_id: C175
+          lib_id: L1-279
+    TokenModelCard:
+      description: ''
+      type: object
+      properties:
+        user:
+          type: string
+          minLength: 1
+        id:
+          type: object
+          properties:
+            Int64:
+              type: number
+            Valid:
+              type: boolean
+          required:
+            - Int64
+            - Valid
+        proto:
+          type: number
+        purity:
+          type: number
+      required:
+        - user
+        - id
+        - proto
+        - purity
+      x-examples:
+        example-1:
+          user: '0xf096e0d009dd024e5cff8075a7418b5712f0cc7d'
+          id:
+            Int64: 0
+            Valid: false
+          proto: 216
+          purity: 701
+      examples:
+        - user: '0xf096e0d009dd024e5cff8075a7418b5712f0cc7d'
+          id:
+            Int64: 0
+            Valid: false
+          proto: 216
+          purity: 701
+    TokenModelCardList:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          total: 6875315
+          page: 1
+          perPage: 20
+          records:
+            - user: '0xf096e0d009dd024e5cff8075a7418b5712f0cc7d'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 216
+              purity: 701
+            - user: '0xf096e0d009dd024e5cff8075a7418b5712f0cc7d'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 377
+              purity: 602
+            - user: '0xf096e0d009dd024e5cff8075a7418b5712f0cc7d'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 347
+              purity: 2482
+            - user: '0xf096e0d009dd024e5cff8075a7418b5712f0cc7d'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 37
+              purity: 704
+            - user: '0xf096e0d009dd024e5cff8075a7418b5712f0cc7d'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 238
+              purity: 580
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 375
+              purity: 982
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 229
+              purity: 372
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 122
+              purity: 730
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 277
+              purity: 314
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 377
+              purity: 369
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 32
+              purity: 263
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 182
+              purity: 649
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 254
+              purity: 989
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 301
+              purity: 554
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 199
+              purity: 364
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 42
+              purity: 2269
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 222
+              purity: 295
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 327
+              purity: 714
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 58
+              purity: 479
+            - user: '0xe0fb7622091e3d9ef9b438471b10b9ea88c7cf6b'
+              id:
+                Int64: 0
+                Valid: false
+              proto: 14
+              purity: 57
+      properties:
+        total:
+          type: number
+        page:
+          type: number
+        perPage:
+          type: number
+        records:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/TokenModelCard'
+      required:
+        - total
+        - page
+        - perPage
+        - records
+    PrototypeCardList:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          total: 1193
+          page: 1
+          perPage: 20
+          records:
+            - id: 279
+              name: Seraph
+              effect: 'Frontline. Protected.<br>Afterlife: Set the attack of all enemy creatures to 1.'
+              god: light
+              rarity: epic
+              tribe:
+                String: aether
+                Valid: true
+              mana: 5
+              attack:
+                Int64: 1
+                Valid: true
+              health:
+                Int64: 1
+                Valid: true
+              type: creature
+              set: genesis
+              collectable: true
+              live: 'true'
+              art_id: C175
+              lib_id: L1-279
+            - id: 101309
+              name: Neferu’s Sacrifice
+              effect: Draw a card and take 2 damage.
+              god: death
+              rarity: common
+              tribe:
+                String: ''
+                Valid: false
+              mana: 3
+              attack:
+                Int64: 0
+                Valid: false
+              health:
+                Int64: 0
+                Valid: false
+              type: god power
+              set: order
+              collectable: false
+              live: 'true'
+              art_id: C8-T010
+              lib_id: L8-T010
+            - id: 101310
+              name: Lysander’s Honor
+              effect: Give -1 strength to an enemy creature.
+              god: light
+              rarity: common
+              tribe:
+                String: ''
+                Valid: false
+              mana: 2
+              attack:
+                Int64: 0
+                Valid: false
+              health:
+                Int64: 0
+                Valid: false
+              type: god power
+              set: order
+              collectable: false
+              live: 'true'
+              art_id: C8-T011
+              lib_id: L8-T011
+            - id: 1253
+              name: Dart Maniac
+              effect: 'At the end of your turn, deal 1 damage to a random enemy character.'
+              god: neutral
+              rarity: rare
+              tribe:
+                String: ''
+                Valid: false
+              mana: 2
+              attack:
+                Int64: 1
+                Valid: true
+              health:
+                Int64: 3
+                Valid: true
+              type: creature
+              set: core
+              collectable: true
+              live: 'true'
+              art_id: C467
+              lib_id: L2-254
+            - id: 100127
+              name: Magebolt
+              effect: Deal 1 damage.
+              god: magic
+              rarity: common
+              tribe:
+                String: ''
+                Valid: false
+              mana: 2
+              attack:
+                Int64: 0
+                Valid: false
+              health:
+                Int64: 0
+                Valid: false
+              type: god power
+              set: core
+              collectable: false
+              live: 'true'
+              art_id: C689
+              lib_id: L2-T059
+            - id: 100132
+              name: Ancient Guardian
+              effect: ''
+              god: neutral
+              rarity: common
+              tribe:
+                String: anubian
+                Valid: true
+              mana: 2
+              attack:
+                Int64: 2
+                Valid: true
+              health:
+                Int64: 2
+                Valid: true
+              type: creature
+              set: core
+              collectable: false
+              live: 'true'
+              art_id: C652
+              lib_id: L2-T064
+            - id: 101311
+              name: Selena’s Mark
+              effect: Deal 1 damage to a random enemy creature and heal your god for 1.
+              god: nature
+              rarity: common
+              tribe:
+                String: ''
+                Valid: false
+              mana: 2
+              attack:
+                Int64: 0
+                Valid: false
+              health:
+                Int64: 0
+                Valid: false
+              type: god power
+              set: order
+              collectable: false
+              live: 'true'
+              art_id: C8-T012
+              lib_id: L8-T012
+            - id: 188
+              name: Rockdrake Egg
+              effect: 'Burn 2. Cannot attack.<br>Afterlife: If you have 6 cards or more in hand, summon a 6/5 Rockdrake.'
+              god: neutral
+              rarity: rare
+              tribe:
+                String: dragon
+                Valid: true
+              mana: 2
+              attack:
+                Int64: 0
+                Valid: true
+              health:
+                Int64: 6
+                Valid: true
+              type: creature
+              set: genesis
+              collectable: true
+              live: 'true'
+              art_id: C284
+              lib_id: L1-188
+            - id: 303
+              name: Whetstone
+              effect: Give your relic +4 strength for its next attack.
+              god: war
+              rarity: common
+              tribe:
+                String: ''
+                Valid: false
+              mana: 1
+              attack:
+                Int64: 0
+                Valid: false
+              health:
+                Int64: 0
+                Valid: false
+              type: spell
+              set: genesis
+              collectable: true
+              live: 'true'
+              art_id: C157
+              lib_id: L1-303
+            - id: 338
+              name: Fill the Coffers
+              effect: 'Add a random spell, creature, and relic from your opponent''s god to your hand.'
+              god: deception
+              rarity: epic
+              tribe:
+                String: ''
+                Valid: false
+              mana: 6
+              attack:
+                Int64: 0
+                Valid: false
+              health:
+                Int64: 0
+                Valid: false
+              type: spell
+              set: genesis
+              collectable: true
+              live: 'true'
+              art_id: C291
+              lib_id: L1-338
+            - id: 945
+              name: Blessing of War
+              effect: 'For each War creature in either void, you gain 3 favor and your opponent loses 3 favor.'
+              god: war
+              rarity: common
+              tribe:
+                String: ''
+                Valid: false
+              mana: 3
+              attack:
+                Int64: 0
+                Valid: false
+              health:
+                Int64: 0
+                Valid: false
+              type: spell
+              set: trial
+              collectable: true
+              live: 'true'
+              art_id: C6146
+              lib_id: L6-146
+            - id: 100920
+              name: First Pillar
+              effect: Frontline. Can't attack.
+              god: light
+              rarity: common
+              tribe:
+                String: structure
+                Valid: true
+              mana: 4
+              attack:
+                Int64: 2
+                Valid: true
+              health:
+                Int64: 5
+                Valid: true
+              type: creature
+              set: trial
+              collectable: false
+              live: 'true'
+              art_id: C100920
+              lib_id: L6-T023
+            - id: 87012
+              name: Radiant Spirit
+              effect: 'At the end of your turn, a random friendly injured character is healed for 2.'
+              god: light
+              rarity: common
+              tribe:
+                String: aether
+                Valid: true
+              mana: 4
+              attack:
+                Int64: 3
+                Valid: true
+              health:
+                Int64: 4
+                Valid: true
+              type: creature
+              set: welcome
+              collectable: true
+              live: 'true'
+              art_id: C7-012
+              lib_id: L7-012
+            - id: 87037
+              name: Barbed Portcullis
+              effect: Frontline.<br>Can't attack.
+              god: neutral
+              rarity: common
+              tribe:
+                String: structure
+                Valid: true
+              mana: 3
+              attack:
+                Int64: 2
+                Valid: true
+              health:
+                Int64: 4
+                Valid: true
+              type: creature
+              set: welcome
+              collectable: true
+              live: 'true'
+              art_id: C7-037
+              lib_id: L7-037
+            - id: 87051
+              name: Best Friends
+              effect: 'Summon a confused 2/1 Eagle. Then if you have at least three creatures, summon a confused 1/2 Badger.'
+              god: nature
+              rarity: common
+              tribe:
+                String: ''
+                Valid: false
+              mana: 1
+              attack:
+                Int64: 0
+                Valid: false
+              health:
+                Int64: 0
+                Valid: false
+              type: spell
+              set: welcome
+              collectable: true
+              live: 'true'
+              art_id: C7-051
+              lib_id: L7-051
+            - id: 1349
+              name: Monolith of Storms
+              effect: 'Order 10. After you play a spell, give +2 strength to this creature. Ability: Deal damage to an enemy character equal to this creature''s strength, then set this creature''s strength to 0.'
+              god: magic
+              rarity: legendary
+              tribe:
+                String: structure
+                Valid: true
+              mana: 5
+              attack:
+                Int64: 5
+                Valid: true
+              health:
+                Int64: 5
+                Valid: true
+              type: creature
+              set: order
+              collectable: true
+              live: 'true'
+              art_id: C8-052
+              lib_id: L8-052
+            - id: 340
+              name: Back-Alley Vendor
+              effect: 'Roar: Replace all anims, enchanted weapons, and runes in your hand with random legendary cards.'
+              god: neutral
+              rarity: rare
+              tribe:
+                String: ''
+                Valid: false
+              mana: 1
+              attack:
+                Int64: 1
+                Valid: true
+              health:
+                Int64: 2
+                Valid: true
+              type: creature
+              set: genesis
+              collectable: true
+              live: 'true'
+              art_id: C120
+              lib_id: L1-340
+            - id: 100058
+              name: Glamoured Gladius
+              effect: 'Blitz.<br>Whenever you attack, give a random friendly creature +1 strength.'
+              god: neutral
+              rarity: common
+              tribe:
+                String: ''
+                Valid: false
+              mana: 2
+              attack:
+                Int64: 1
+                Valid: true
+              health:
+                Int64: 3
+                Valid: true
+              type: weapon
+              set: genesis
+              collectable: false
+              live: 'true'
+              art_id: C775
+              lib_id: L1-T056
+            - id: 87061
+              name: Rebuild Differently
+              effect: Destroy target creature.<br>Pull a random creature from any void onto your side of the board.
+              god: death
+              rarity: common
+              tribe:
+                String: ''
+                Valid: false
+              mana: 7
+              attack:
+                Int64: 0
+                Valid: false
+              health:
+                Int64: 0
+                Valid: false
+              type: spell
+              set: welcome
+              collectable: true
+              live: 'true'
+              art_id: C7-061
+              lib_id: L7-061
+            - id: 21
+              name: 'Osiris, the Eternal'
+              effect: 'Afterlife: Shuffle this creature into your deck. It keeps all buffs.'
+              god: light
+              rarity: legendary
+              tribe:
+                String: anubian
+                Valid: true
+              mana: 3
+              attack:
+                Int64: 3
+                Valid: true
+              health:
+                Int64: 4
+                Valid: true
+              type: creature
+              set: genesis
+              collectable: true
+              live: 'true'
+              art_id: C72
+              lib_id: L1-021
+      properties:
+        total:
+          type: number
+        page:
+          type: number
+        perPage:
+          type: number
+        records:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/PrototypeCard'
+      required:
+        - total
+        - page
+        - perPage
+        - records
+    PackFactory:
+      description: ''
+      type: object
+      properties:
+        address:
+          type: string
+          minLength: 1
+        type:
+          type: string
+          minLength: 1
+      required:
+        - address
+        - type
+      x-examples:
+        example-1:
+          address: '0x0777f76d195795268388789343068e4fcd286919'
+          type: rare
+      examples:
+        - address: '0x0777f76d195795268388789343068e4fcd286919'
+          type: rare
+    Purchase:
+      description: ''
+      type: object
+      properties:
+        id:
+          type: number
+        user:
+          type: string
+          minLength: 1
+        count:
+          type: number
+        remaining:
+          type: number
+        factory:
+          type: string
+          minLength: 1
+        txhash:
+          type: string
+          minLength: 1
+        type:
+          type: string
+          minLength: 1
+        timestamp:
+          type: number
+      required:
+        - id
+        - user
+        - count
+        - remaining
+        - factory
+        - txhash
+        - type
+        - timestamp
+      x-examples:
+        example-1:
+          id: 6307
+          user: '0x3b1198b35883752bf16d964a30c615ea4bfb645d'
+          count: 6
+          remaining: 6
+          factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+          txhash: '0xb49130ffa0b3a8aaa95fa8a72d396d9abf8b107346754bb5694eb8b5cd839709'
+          type: rare
+          timestamp: 1641030521
+      examples:
+        - id: 6307
+          user: '0x3b1198b35883752bf16d964a30c615ea4bfb645d'
+          count: 6
+          remaining: 6
+          factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+          txhash: '0xb49130ffa0b3a8aaa95fa8a72d396d9abf8b107346754bb5694eb8b5cd839709'
+          type: rare
+          timestamp: 1641030521
+    PurchaseList:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          total: 103632
+          page: 1
+          perPage: 20
+          records:
+            - id: 6307
+              user: '0x3b1198b35883752bf16d964a30c615ea4bfb645d'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0xb49130ffa0b3a8aaa95fa8a72d396d9abf8b107346754bb5694eb8b5cd839709'
+              type: rare
+              timestamp: 1641030521
+            - id: 6306
+              user: '0xbb6b5e1377a36a668995b889b5b57aeb84018b4c'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0xcec4c47b4961288f81f374b2a200b47f5030c550d5011e44e4e9ec7418dd1a4c'
+              type: rare
+              timestamp: 1641020665
+            - id: 6305
+              user: '0xbb6b5e1377a36a668995b889b5b57aeb84018b4c'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0x93a6a0de4623d3412df0212c01cc213b7962f8e59207608aaed717180ff78025'
+              type: rare
+              timestamp: 1641020632
+            - id: 6304
+              user: '0xc4bdbb3da01abe8ef67c20b784055a3efb331641'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0x0b6a5f299df05f1e63cc072e02453bdd7448f43d9ecfd9ae14f6f1667f1efbe6'
+              type: rare
+              timestamp: 1640982911
+            - id: 6303
+              user: '0x6b11d23e1c2078780b042c35b95e31c8d6834883'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0x5daf66efd8cd4570c89aa306a47422213036051b3f26f41749d19d9ec3ac5bf7'
+              type: rare
+              timestamp: 1640934175
+            - id: 6302
+              user: '0x6b11d23e1c2078780b042c35b95e31c8d6834883'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0x545fcbbdcd73d0dd2eb8e3524c62e532ce03171bebe9b8cc1c99724e4403978e'
+              type: rare
+              timestamp: 1640934142
+            - id: 6301
+              user: '0x285184084e50764b08446335dd9e6b0bd7e8e3f5'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0xc4162a7a64cf5c85f01ed686cdd4ed7d9181fae3c7ae1a731b22ef4f640d25a4'
+              type: rare
+              timestamp: 1640889261
+            - id: 6300
+              user: '0x7909e250df0c9c534775fdac519add46c46b6aa7'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0x2c1c2895941fc6e4bf2a0198442211a33d90ed1990324de23bd08d2a22d65031'
+              type: rare
+              timestamp: 1640861492
+            - id: 6299
+              user: '0x794f4ebd1ec96b3c5f208991cce1fbca34487881'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0xf116c2d79c7dd4110843ee9eb13e1c66bc0bc2ccafdb8ed9fb80325ea0ee82b2'
+              type: rare
+              timestamp: 1640858338
+            - id: 6298
+              user: '0x8899e7d6e29d371e75f18644c01b2249abd2f83d'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0x7595e93a0e9dd6a0756b19765c41004f595ca7286d53db0f7c45b348ff9af3e4'
+              type: rare
+              timestamp: 1640839524
+            - id: 6297
+              user: '0x5adf6aae21988a5cc833997851710ab1ca54fe59'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0x1e1543e5fd31b9f9cd87ce000143cac2e079a9365b73dcf62fb9972e448572ee'
+              type: rare
+              timestamp: 1640828862
+            - id: 6296
+              user: '0x794f4ebd1ec96b3c5f208991cce1fbca34487881'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0xdd342ae8ce3de8b4ce3640a39a4cd675a5714542ff79e7994d13bd3ce7de5501'
+              type: rare
+              timestamp: 1640803383
+            - id: 6295
+              user: '0xa8716a7852cc7bad019e69be132ad80a72a7c410'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0x6640d0c0292318e136450d1d66f9e40209a6be12ed6c9c546532b7abed76d983'
+              type: rare
+              timestamp: 1640769247
+            - id: 6294
+              user: '0xa8716a7852cc7bad019e69be132ad80a72a7c410'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0xded3dc0e2f810de215effda90e1d8066fd78a1543751daaf539d42e80f6d6662'
+              type: rare
+              timestamp: 1640769184
+            - id: 6293
+              user: '0xa8716a7852cc7bad019e69be132ad80a72a7c410'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0xe58a7ea5cb525533e037c0774793e2ac37ce4a36543203fe7257e2c409222dfe'
+              type: rare
+              timestamp: 1640769150
+            - id: 6292
+              user: '0x55fe85ee5256df53f98c24874bb808d63c8ba5ce'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0xbbb20863a37068a4d4034df266ab1733bee2ae6d73bd63aa080fecb73e114e98'
+              type: rare
+              timestamp: 1640757559
+            - id: 6291
+              user: '0x67aabc874768d906badecfaa4afa07bdd69f7ea4'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0x172db76b49bcdff8be3a807ecf89b4bb5c177324e14255f76842f37519012705'
+              type: rare
+              timestamp: 1640744562
+            - id: 6290
+              user: '0xf09c860cac4119c959adb58fa4ad9bddf665875f'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0xce1d270e35531bb94fc06bcb08a72405d6f4ded758eef1df721eaff4ab7297c3'
+              type: rare
+              timestamp: 1640653995
+            - id: 6289
+              user: '0xc17e13bf392008701f70226363f3403e0fd78c7c'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0x9a3bbcb3b7a42661abe66d691879383552901a3a6edf673e8543952c7cb028f0'
+              type: rare
+              timestamp: 1640591403
+            - id: 6288
+              user: '0xe7ef9d61d4d1bb02b30986daaa26319e0ddbf260'
+              count: 6
+              remaining: 6
+              factory: '0x3ae323c0589d32067c07b4a351b10bc900d8b50d'
+              txhash: '0x95ba82abc4bc6e5502a85d8136d9a1d53c820f30abefb98e30bedd2704dd2679'
+              type: rare
+              timestamp: 1640589499
+      properties:
+        total:
+          type: number
+        page:
+          type: number
+        perPage:
+          type: number
+        records:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Purchase'
+      required:
+        - total
+        - page
+        - perPage
+        - records
+    Pack:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          purchaseid: 36467
+          purchaseindex: 0
+          purchaseindices:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+          user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+          factory: '0x0777f76d195795268388789343068e4fcd286919'
+          opened: true
+          cards: null
+          type: rare
+      examples:
+        - purchaseid: 36467
+          purchaseindex: 0
+          purchaseindices:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+          user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+          factory: '0x0777f76d195795268388789343068e4fcd286919'
+          opened: true
+          cards: null
+          type: rare
+      properties:
+        purchaseid:
+          type: number
+        purchaseindex:
+          type: number
+        purchaseindices:
+          type: array
+          items:
+            type: number
+        user:
+          type: string
+          minLength: 1
+        factory:
+          type: string
+          minLength: 1
+        opened:
+          type: boolean
+        cards:
+          type: array
+          items:
+            type: object
+            properties:
+              proto:
+                type: number
+              purity:
+                type: number
+        type:
+          type: string
+          minLength: 1
+      required:
+        - purchaseid
+        - purchaseindex
+        - purchaseindices
+        - user
+        - factory
+        - opened
+        - type
+    PackList:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          total: 1377310
+          page: 1
+          perPage: 20
+          records:
+            - purchaseid: 36467
+              purchaseindex: 0
+              purchaseindices:
+                - 0
+                - 1
+                - 2
+                - 3
+                - 4
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 5
+              purchaseindices:
+                - 5
+                - 6
+                - 7
+                - 8
+                - 9
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 10
+              purchaseindices:
+                - 10
+                - 11
+                - 12
+                - 13
+                - 14
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 15
+              purchaseindices:
+                - 15
+                - 16
+                - 17
+                - 18
+                - 19
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 20
+              purchaseindices:
+                - 20
+                - 21
+                - 22
+                - 23
+                - 24
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 25
+              purchaseindices:
+                - 25
+                - 26
+                - 27
+                - 28
+                - 29
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 30
+              purchaseindices:
+                - 30
+                - 31
+                - 32
+                - 33
+                - 34
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 35
+              purchaseindices:
+                - 35
+                - 36
+                - 37
+                - 38
+                - 39
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 40
+              purchaseindices:
+                - 40
+                - 41
+                - 42
+                - 43
+                - 44
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 45
+              purchaseindices:
+                - 45
+                - 46
+                - 47
+                - 48
+                - 49
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 50
+              purchaseindices:
+                - 50
+                - 51
+                - 52
+                - 53
+                - 54
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 55
+              purchaseindices:
+                - 55
+                - 56
+                - 57
+                - 58
+                - 59
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 60
+              purchaseindices:
+                - 60
+                - 61
+                - 62
+                - 63
+                - 64
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 65
+              purchaseindices:
+                - 65
+                - 66
+                - 67
+                - 68
+                - 69
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 70
+              purchaseindices:
+                - 70
+                - 71
+                - 72
+                - 73
+                - 74
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 75
+              purchaseindices:
+                - 75
+                - 76
+                - 77
+                - 78
+                - 79
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 80
+              purchaseindices:
+                - 80
+                - 81
+                - 82
+                - 83
+                - 84
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 85
+              purchaseindices:
+                - 85
+                - 86
+                - 87
+                - 88
+                - 89
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 90
+              purchaseindices:
+                - 90
+                - 91
+                - 92
+                - 93
+                - 94
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+            - purchaseid: 36467
+              purchaseindex: 95
+              purchaseindices:
+                - 95
+                - 96
+                - 97
+                - 98
+                - 99
+              user: '0x5fafec436b45a12ff430804a644e68cb012e5bd6'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              opened: true
+              cards: null
+              type: rare
+      properties:
+        total:
+          type: number
+        page:
+          type: number
+        perPage:
+          type: number
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pack'
+      required:
+        - total
+        - page
+        - perPage
+    Referral:
+      description: ''
+      type: object
+      properties:
+        id:
+          type: number
+        referrer:
+          type: string
+          minLength: 1
+        purchaser:
+          type: string
+          minLength: 1
+        factory:
+          type: string
+          minLength: 1
+        value:
+          type: number
+        count:
+          type: number
+        type:
+          type: string
+          minLength: 1
+      required:
+        - id
+        - referrer
+        - purchaser
+        - factory
+        - value
+        - count
+        - type
+      x-examples:
+        example-1:
+          id: 0
+          referrer: '0xe51088c7b5dacf49cc1bc21ba8c8a5123cfaeaaf'
+          purchaser: '0xf6b1fde85d1d0d2f88f2c98c8926f4ff3abe259c'
+          factory: '0xc47d7d42e44b2e04c83a45cf45898e597a0c2311'
+          value: 11200000000000000
+          count: 0
+          type: legendary
+      examples:
+        - id: 0
+          referrer: '0xe51088c7b5dacf49cc1bc21ba8c8a5123cfaeaaf'
+          purchaser: '0xf6b1fde85d1d0d2f88f2c98c8926f4ff3abe259c'
+          factory: '0xc47d7d42e44b2e04c83a45cf45898e597a0c2311'
+          value: 11200000000000000
+          count: 0
+          type: legendary
+    ReferralList:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          total: 43696
+          page: 1
+          perPage: 20
+          records:
+            - id: 0
+              referrer: '0xe51088c7b5dacf49cc1bc21ba8c8a5123cfaeaaf'
+              purchaser: '0xf6b1fde85d1d0d2f88f2c98c8926f4ff3abe259c'
+              factory: '0xc47d7d42e44b2e04c83a45cf45898e597a0c2311'
+              value: 11200000000000000
+              count: 0
+              type: legendary
+            - id: 0
+              referrer: '0x456416d68ead2ea159b56f9a92798a9cb03fa83c'
+              purchaser: '0x555e86f9ada1caaaf8ef084d6e8d9306daffdabe'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              value: 60000000000000000
+              count: 0
+              type: rare
+            - id: 0
+              referrer: '0x456416d68ead2ea159b56f9a92798a9cb03fa83c'
+              purchaser: '0x555e86f9ada1caaaf8ef084d6e8d9306daffdabe'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              value: 21600000000000000
+              count: 0
+              type: rare
+            - id: 0
+              referrer: '0x75b9286db7bd560e0429b851fbd6cb728b0a0451'
+              purchaser: '0x7903259ad9ff4f4f22bef350ab794e8193686e7b'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              value: 7200000000000000
+              count: 0
+              type: rare
+            - id: 0
+              referrer: '0x75b9286db7bd560e0429b851fbd6cb728b0a0451'
+              purchaser: '0x7903259ad9ff4f4f22bef350ab794e8193686e7b'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              value: 7200000000000000
+              count: 0
+              type: rare
+            - id: 0
+              referrer: '0xffd4c92f7ab9075e0faada86dfa22784bb4fe56c'
+              purchaser: '0x778f7434956b899303708fa3c5fad85bf9d93e06'
+              factory: '0x482cf6a9d6b23452c81d4d0f0f139c1414963f89'
+              value: 7500000000000000
+              count: 0
+              type: epic
+            - id: 0
+              referrer: '0xe51088c7b5dacf49cc1bc21ba8c8a5123cfaeaaf'
+              purchaser: '0xf6b1fde85d1d0d2f88f2c98c8926f4ff3abe259c'
+              factory: '0xc47d7d42e44b2e04c83a45cf45898e597a0c2311'
+              value: 11200000000000000
+              count: 0
+              type: legendary
+            - id: 0
+              referrer: '0x456416d68ead2ea159b56f9a92798a9cb03fa83c'
+              purchaser: '0x555e86f9ada1caaaf8ef084d6e8d9306daffdabe'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              value: 60000000000000000
+              count: 0
+              type: rare
+            - id: 0
+              referrer: '0x456416d68ead2ea159b56f9a92798a9cb03fa83c'
+              purchaser: '0x555e86f9ada1caaaf8ef084d6e8d9306daffdabe'
+              factory: '0xc47d7d42e44b2e04c83a45cf45898e597a0c2311'
+              value: 11200000000000000
+              count: 0
+              type: legendary
+            - id: 0
+              referrer: '0xe51088c7b5dacf49cc1bc21ba8c8a5123cfaeaaf'
+              purchaser: '0xf6b1fde85d1d0d2f88f2c98c8926f4ff3abe259c'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              value: 21600000000000000
+              count: 0
+              type: rare
+            - id: 0
+              referrer: '0xe51088c7b5dacf49cc1bc21ba8c8a5123cfaeaaf'
+              purchaser: '0xf6b1fde85d1d0d2f88f2c98c8926f4ff3abe259c'
+              factory: '0xc47d7d42e44b2e04c83a45cf45898e597a0c2311'
+              value: 11200000000000000
+              count: 0
+              type: legendary
+            - id: 0
+              referrer: '0xb4d082decf42817e1fb0e86fa0369f2f09e51082'
+              purchaser: '0x4ada1b9d9fe28abd9585f58cfeed2169a39e1c6b'
+              factory: '0xc47d7d42e44b2e04c83a45cf45898e597a0c2311'
+              value: 61824000000000000
+              count: 0
+              type: legendary
+            - id: 0
+              referrer: '0x88004441a0f79727d19a2697344244c901736e0a'
+              purchaser: '0xb08f95dbc639621dbaf48a472ae8fce0f6f56a6e'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              value: 55200000000000000
+              count: 0
+              type: rare
+            - id: 0
+              referrer: '0x9fb650be1a46ea60f6402f92e941d711b8a67ccb'
+              purchaser: '0x0bb324944319cbc2e08d9959927aa5d420e2e792'
+              factory: '0xc47d7d42e44b2e04c83a45cf45898e597a0c2311'
+              value: 61824000000000000
+              count: 0
+              type: legendary
+            - id: 0
+              referrer: '0xb4d082decf42817e1fb0e86fa0369f2f09e51082'
+              purchaser: '0x78c64d6866f628974a97143307ef6b8209f1319b'
+              factory: '0x482cf6a9d6b23452c81d4d0f0f139c1414963f89'
+              value: 124200000000000000
+              count: 0
+              type: epic
+            - id: 0
+              referrer: '0xb08f95dbc639621dbaf48a472ae8fce0f6f56a6e'
+              purchaser: '0x88004441a0f79727d19a2697344244c901736e0a'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              value: 55200000000000000
+              count: 0
+              type: rare
+            - id: 0
+              referrer: '0x45c35bc3edb928da45a0b63c09d182dbf49bf344'
+              purchaser: '0x9ec0549ea7423f041106af109229634ba63e5601'
+              factory: '0xc47d7d42e44b2e04c83a45cf45898e597a0c2311'
+              value: 1030400000000000000
+              count: 0
+              type: legendary
+            - id: 0
+              referrer: '0x45c35bc3edb928da45a0b63c09d182dbf49bf344'
+              purchaser: '0x9ec0549ea7423f041106af109229634ba63e5601'
+              factory: '0xc47d7d42e44b2e04c83a45cf45898e597a0c2311'
+              value: 1030400000000000000
+              count: 0
+              type: legendary
+            - id: 0
+              referrer: '0x45c35bc3edb928da45a0b63c09d182dbf49bf344'
+              purchaser: '0x9ec0549ea7423f041106af109229634ba63e5601'
+              factory: '0xc47d7d42e44b2e04c83a45cf45898e597a0c2311'
+              value: 1030400000000000000
+              count: 0
+              type: legendary
+            - id: 0
+              referrer: '0xf796b8fb98c7c98fd4b5424ced013820d1f2ee76'
+              purchaser: '0x69aae7a2969d5ef1a6521ed2f2cc68b9d16360b3'
+              factory: '0x0777f76d195795268388789343068e4fcd286919'
+              value: 6624000000000000
+              count: 0
+              type: rare
+      properties:
+        total:
+          type: number
+        page:
+          type: number
+        perPage:
+          type: number
+        records:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Referral'
+      required:
+        - total
+        - page
+        - perPage
+        - records
+    UserInventoryItem:
+      description: ''
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        mana:
+          type: number
+        health:
+          type: object
+          properties:
+            Int64:
+              type: number
+            Valid:
+              type: boolean
+          required:
+            - Int64
+            - Valid
+        attack:
+          type: object
+          properties:
+            Int64:
+              type: number
+            Valid:
+              type: boolean
+          required:
+            - Int64
+            - Valid
+        tribe:
+          type: object
+          properties:
+            String:
+              type: string
+              minLength: 1
+            Valid:
+              type: boolean
+          required:
+            - String
+            - Valid
+        rarity:
+          type: string
+          minLength: 1
+        type:
+          type: string
+          minLength: 1
+        god:
+          type: string
+          minLength: 1
+        effect:
+          type: string
+          minLength: 1
+        user:
+          type: string
+          minLength: 1
+        id:
+          type: object
+          properties:
+            Int64:
+              type: number
+            Valid:
+              type: boolean
+          required:
+            - Int64
+            - Valid
+        proto:
+          type: number
+        purity:
+          type: number
+        opened:
+          type: boolean
+        set:
+          type: object
+          properties:
+            String:
+              type: string
+              minLength: 1
+            Valid:
+              type: boolean
+          required:
+            - String
+            - Valid
+      required:
+        - name
+        - mana
+        - health
+        - attack
+        - tribe
+        - rarity
+        - type
+        - god
+        - effect
+        - user
+        - id
+        - proto
+        - purity
+        - opened
+        - set
+      x-examples:
+        example-1:
+          name: Rolling Watcher
+          mana: 2
+          health:
+            Int64: 0
+            Valid: false
+          attack:
+            Int64: 0
+            Valid: true
+          tribe:
+            String: atlantean
+            Valid: true
+          rarity: common
+          type: creature
+          god: neutral
+          effect: 'At the start of each turn, this creature gets +1 strength.'
+          user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+          id:
+            Int64: 35
+            Valid: true
+          proto: 35
+          purity: 161
+          opened: true
+          set:
+            String: genesis
+            Valid: true
+      examples:
+        - name: Rolling Watcher
+          mana: 2
+          health:
+            Int64: 0
+            Valid: false
+          attack:
+            Int64: 0
+            Valid: true
+          tribe:
+            String: atlantean
+            Valid: true
+          rarity: common
+          type: creature
+          god: neutral
+          effect: 'At the start of each turn, this creature gets +1 strength.'
+          user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+          id:
+            Int64: 35
+            Valid: true
+          proto: 35
+          purity: 161
+          opened: true
+          set:
+            String: genesis
+            Valid: true
+    UserInventoryItemList:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          total: 925
+          page: 1
+          perPage: 20
+          records:
+            - name: Rolling Watcher
+              mana: 2
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 0
+                Valid: true
+              tribe:
+                String: atlantean
+                Valid: true
+              rarity: common
+              type: creature
+              god: neutral
+              effect: 'At the start of each turn, this creature gets +1 strength.'
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 35
+                Valid: true
+              proto: 35
+              purity: 161
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Whetstone
+              mana: 1
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 0
+                Valid: false
+              tribe:
+                String: ''
+                Valid: false
+              rarity: common
+              type: spell
+              god: war
+              effect: Give your relic +4 strength for its next attack.
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 303
+                Valid: true
+              proto: 303
+              purity: 599
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Shadow Scryer
+              mana: 1
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 1
+                Valid: true
+              tribe:
+                String: mystic
+                Valid: true
+              rarity: common
+              type: creature
+              god: magic
+              effect: |-
+                Protected. Ward.
+                At the start of your turn, foresee 1.
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 199
+                Valid: true
+              proto: 199
+              purity: 322
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Leviathan Hunter
+              mana: 1
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 2
+                Valid: true
+              tribe:
+                String: viking
+                Valid: true
+              rarity: common
+              type: creature
+              god: neutral
+              effect: 'Roar: Equip a 1/1 Barbed Hook. If you control another Viking, equip a 1/2 Barbed Hook instead.'
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 206
+                Valid: true
+              proto: 206
+              purity: 482
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Compost Charm
+              mana: 2
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 0
+                Valid: false
+              tribe:
+                String: ''
+                Valid: false
+              rarity: epic
+              type: spell
+              god: nature
+              effect: |-
+                Heal your god for 10.
+                If you have eight cards in your void, add a random Nature card into your hand.
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 134
+                Valid: true
+              proto: 134
+              purity: 486
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Deathsworn Raider
+              mana: 3
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 3
+                Valid: true
+              tribe:
+                String: viking
+                Valid: true
+              rarity: common
+              type: creature
+              god: war
+              effect: 'Roar: Give +2/+1 to a friendly Viking.'
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 211
+                Valid: true
+              proto: 211
+              purity: 354
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Sentinel Princess
+              mana: 1
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 2
+                Valid: true
+              tribe:
+                String: atlantean
+                Valid: true
+              rarity: common
+              type: creature
+              god: neutral
+              effect: 'Roar: If you control another Atlantean, this gets +1 strength.'
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 33
+                Valid: true
+              proto: 33
+              purity: 558
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Healing Insight
+              mana: 1
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 0
+                Valid: false
+              tribe:
+                String: ''
+                Valid: false
+              rarity: common
+              type: spell
+              god: light
+              effect: Give a friendly creature +2 health and fully heal it.
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 14
+                Valid: true
+              proto: 14
+              purity: 80
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Sharpen
+              mana: 2
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 0
+                Valid: false
+              tribe:
+                String: ''
+                Valid: false
+              rarity: common
+              type: spell
+              god: war
+              effect: Give +3 strength to your relic and to target friendly creature for their next attack.
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 334
+                Valid: true
+              proto: 334
+              purity: 633
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Daemonic Offering
+              mana: 3
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 0
+                Valid: false
+              tribe:
+                String: ''
+                Valid: false
+              rarity: epic
+              type: spell
+              god: death
+              effect: Destroy target friendly creature. Summon two random anims. They gain the tribe Nether.
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 181
+                Valid: true
+              proto: 181
+              purity: 262
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Warden of Kauket
+              mana: 8
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 3
+                Valid: true
+              tribe:
+                String: anubian
+                Valid: true
+              rarity: common
+              type: creature
+              god: neutral
+              effect: 'Whenever your god takes damage, deal 2 damage to each other creature.'
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 259
+                Valid: true
+              proto: 259
+              purity: 845
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Gentle Monk
+              mana: 4
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 2
+                Valid: true
+              tribe:
+                String: ''
+                Valid: false
+              rarity: common
+              type: creature
+              god: light
+              effect: 'Roar: Set an enemy creature''s strength to 1.'
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 139
+                Valid: true
+              proto: 139
+              purity: 59
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Gentle Monk
+              mana: 4
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 2
+                Valid: true
+              tribe:
+                String: ''
+                Valid: false
+              rarity: common
+              type: creature
+              god: light
+              effect: 'Roar: Set an enemy creature''s strength to 1.'
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 139
+                Valid: true
+              proto: 139
+              purity: 151
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Felid Tracker
+              mana: 2
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 5
+                Valid: true
+              tribe:
+                String: wild
+                Valid: true
+              rarity: common
+              type: creature
+              god: neutral
+              effect: Flank.
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 45
+                Valid: true
+              proto: 45
+              purity: 675
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Fusing Fleshspawn
+              mana: 1
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 3
+                Valid: true
+              tribe:
+                String: nether
+                Valid: true
+              rarity: epic
+              type: creature
+              god: death
+              effect: 'Roar: Destroy a friendly creature. This creature gains health equal to that creature''s strength.'
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 124
+                Valid: true
+              proto: 124
+              purity: 578
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Quicksilver Dragon
+              mana: 7
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 7
+                Valid: true
+              tribe:
+                String: dragon
+                Valid: true
+              rarity: common
+              type: creature
+              god: neutral
+              effect: 'Roar: If you have six cards or more in hand after this enters the board, this creature gains blitz.'
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 184
+                Valid: true
+              proto: 184
+              purity: 348
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Omnipresence
+              mana: 3
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 2
+                Valid: true
+              tribe:
+                String: nether
+                Valid: true
+              rarity: common
+              type: creature
+              god: death
+              effect: 'Roar: Copy the strength and health of a random creature from your void.'
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 277
+                Valid: true
+              proto: 277
+              purity: 144
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: A Real Man
+              mana: 1
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 0
+                Valid: true
+              tribe:
+                String: ''
+                Valid: false
+              rarity: common
+              type: creature
+              god: deception
+              effect: |-
+                Cannot attack.
+                Roar: Hide a friendly creature for 1 turn.
+                Afterlife: Draw a card.
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 126
+                Valid: true
+              proto: 126
+              purity: 149
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Millenium Matryoshka
+              mana: 4
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 2
+                Valid: true
+              tribe:
+                String: atlantean
+                Valid: true
+              rarity: common
+              type: creature
+              god: neutral
+              effect: 'Afterlife: Summon a random anim.'
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 215
+                Valid: true
+              proto: 215
+              purity: 826
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+            - name: Wizened Warlock
+              mana: 3
+              health:
+                Int64: 0
+                Valid: false
+              attack:
+                Int64: 2
+                Valid: true
+              tribe:
+                String: amazon
+                Valid: true
+              rarity: epic
+              type: creature
+              god: neutral
+              effect: |-
+                Ward.
+                At the end of your turn, deal 1 damage to a random enemy.
+              user: '0xd8cf31951c8aa768b68ca1e2bff973b2a8b0a183'
+              id:
+                Int64: 158
+                Valid: true
+              proto: 158
+              purity: 798
+              opened: true
+              set:
+                String: genesis
+                Valid: true
+      properties:
+        total:
+          type: number
+        page:
+          type: number
+        perPage:
+          type: number
+        records:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/UserInventoryItem'
+      required:
+        - total
+        - page
+        - perPage
+        - records
+  responses: {}
+  parameters:
+    page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: number
+      description: page number
+    perPage:
+      name: perPage
+      in: query
+      required: false
+      schema:
+        type: number
+      description: number of items per page to return
+    sort:
+      name: sort
+      in: query
+      schema:
+        type: string
+    order:
+      name: order
+      in: query
+      schema:
+        type: string
+        enum:
+          - asc
+          - desc
+    god:
+      name: god
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - light
+          - death
+          - nature
+          - war
+          - magic
+          - deception
+      description: card god type
+    rarity:
+      name: rarity
+      in: query
+      schema:
+        type: string
+        enum:
+          - common
+          - rare
+          - epic
+          - legendary
+          - mythic
+      description: card rarity
+    type:
+      name: type
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - creature
+          - spell
+          - weapon
+      description: card type
+    tribe:
+      name: tribe
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - nether
+          - aether
+          - atlantean
+          - viking
+          - olympian
+          - anubian
+          - amazon
+      description: card tribe type
+    quality:
+      name: quality
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - plain
+          - shadow
+          - gold
+          - diamond
+      description: card quality
+    format:
+      name: format
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - full
+          - card
+    mana:
+      name: mana
+      in: query
+      required: false
+      schema:
+        type: string
+      description: card mana range
+    health:
+      name: health
+      in: query
+      required: false
+      schema:
+        type: string
+      description: card health range
+    attack:
+      name: attack
+      in: query
+      required: false
+      schema:
+        type: string
+      description: card attack range
+    purity:
+      name: purity
+      in: query
+      required: false
+      schema:
+        type: string
+      description: card purity range
+    proto:
+      name: proto
+      in: query
+      required: false
+      schema:
+        type: number
+      description: card prototype id
