@@ -8,7 +8,6 @@ This version of the API (```v0```) is in a limited public beta: if you discover 
 
 Here are some third-party tools built using these APIs, make sure to ask in our [Discord server](https://discord.gg/2FDZrh2) if you're looking for help or you're wondering what to build. 
 
-- [Gods Unchained Info](https://godsunchained.info)
 - [GUDecks](https://gudecks.com)
 
 ## General
