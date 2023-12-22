@@ -722,6 +722,10 @@ Show the match results
 | :-------------: |:-------------:| :-----:|
 | ```start_time``` | ![range](https://img.shields.io/badge/-range-green.svg) | start time of the match (UNIX epoch format) |
 | ```end_time``` | ![range](https://img.shields.io/badge/-range-green.svg) | end time of the match (UNIX epoch format) |
+| ```player_won``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | user_id of a player |
+| ```player_lost``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | user_id of a player |
+| ```game_mode``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | game_mode identifier |
+
 
 **Important**: total_turns field will be renamed to total_rounds on a later update, we will continue to support it while we ensure our community is using the new field name.
 
