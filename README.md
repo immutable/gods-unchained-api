@@ -82,7 +82,7 @@ https://api.godsunchained.com/v0/card?sort=mana&order=asc&sort=god&order=null&so
 
 ### Rate Limits
 
-Currently, no rate limits are applied to API usage: this may change in future. 
+Currently, there is a rate limit of 5 per second (5/s) on all endpoints. This may change in the future.
 
 ### Types
 
