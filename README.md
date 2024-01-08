@@ -851,3 +851,89 @@ Calculates the probability of a match based on the rating of the players (using 
 ```
 0.6717130465747431
 ```
+
+## Quality APIs
+
+The Quality APIs provide data about the qualities and their visual compsition used by public systems.  
+
+### GET /quality/{quality}
+
+Shows the specified quality class definition and related information. Primarily used by supporting systems such as name and id relationships or metadata overrides. 
+
+**Parameters**
+
+| Name        | Type          | Description  |
+| :-------------: |:-------------:| :-----:|
+| ```quality``` | ![number](https://img.shields.io/badge/-number-lightgrey.svg) | Quality ID |
+
+**Response Format**
+
+```
+{
+ "class_key": "quality",
+ "class_value": "2",
+ "class_properties": {
+  "name": "gold"
+ },
+ "class_type": "card",
+ "game_id": 1
+}
+```
+
+### GET /composition
+
+Shows all the graphical composition data required to generate visuals for the specified proto and quality combinations for NFT art used in Gods Unchained. Currently only supports Card art. 
+
+**Parameters**
+
+| Name        | Type          | Description  | Example |
+| :-------------: |:-------------:| :-----:| :-----:| 
+| ```pairs``` | ![pair](https://img.shields.io/badge/-number-lightgrey.svg) | Proto and Quality defined with an ```@``` separator | ```1234@5``` | 
+
+**Response Format**
+
+```
+[
+ {
+  "id": 1234,
+  "name": "Born Again",
+  "effect": "Pull a creature from your void to your hand. Give it +5/+5 and ward.",
+  "god": "light",
+  "rarity": "epic",
+  "tribe": { "String": "", "Valid": false },
+  "mana": 6,
+  "attack": { "Int64": 0, "Valid": false },
+  "health": { "Int64": 0, "Valid": false },
+  "type": "spell",
+  "set": "core",
+  "collectable": true,
+  "live": "true",
+  "art_id": "C448",
+  "lib_id": "L2-235",
+  "composition": {
+   "illustration": [
+    "1234"
+   ],
+   "frame": [
+    "spell",
+    "spell_plain"
+   ],
+   "rosette": [
+    "light",
+    "light_plain"
+   ],
+   "gems": [
+    "rarity_epic"
+   ],
+   "wreath": [],
+   "lock": [
+    "lock_plain"
+   ],
+   "tribe_bar": [],
+   "set": [
+    "core"
+   ]
+  }
+ }
+]
+```
