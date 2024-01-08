@@ -888,7 +888,7 @@ Shows all the graphical composition data required to generate visuals for the sp
 
 | Name        | Type          | Description  | Example |
 | :-------------: |:-------------:| :-----:| :-----:| 
-| ```pairs``` | ![pair](https://img.shields.io/badge/-number-lightgrey.svg) | Proto and Quality defined with an ```@``` separator | ```1234@5``` | 
+| ```pairs``` | ![pair](https://img.shields.io/badge/-numbers-lightgrey.svg) | Proto and Quality defined with an ```@``` separator | ```1234@5``` | 
 
 **Response Format**
 
