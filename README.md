@@ -242,6 +242,8 @@ Returns a list of prototype cards.
 | ```rarity``` | ![Rarity](https://img.shields.io/badge/-Rarity-blue.svg) | get protos with a specific rarity |
 | ```type``` | ![Type](https://img.shields.io/badge/-Type-blue.svg) | get protos with a specific type |
 | ```tribe``` | ![Tribe](https://img.shields.io/badge/-Tribe-blue.svg) | get protos with a specific tribe |
+| ```set``` | ![Set](https://img.shields.io/badge/-Set-blue.svg) | get protos with a specific set |
+| ```collectable``` | ![Collectable](https://img.shields.io/badge/-Collectable-blue.svg) | get protos that are collectable or not |
 | ```mana``` | ![range](https://img.shields.io/badge/-range-green.svg) | get protos with a specific mana |
 | ```health``` | ![range](https://img.shields.io/badge/-range-green.svg) | get protos with a specific health |
 | ```attack``` | ![range](https://img.shields.io/badge/-range-green.svg) | get protos with a specific attack |
