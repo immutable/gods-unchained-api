@@ -870,7 +870,7 @@ Shows all the active quality class definitions and related information. Primaril
         "class_key": "quality",
         "class_value": "2",
         "class_properties": {
-        "name": "gold"
+            "name": "gold"
         },
         "class_type": "card",
         "game_id": 1
