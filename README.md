@@ -858,6 +858,27 @@ Calculates the probability of a match based on the rating of the players (using 
 
 The Quality APIs provide data about the qualities and their visual compsition used by public systems.  
 
+### GET /quality
+
+Shows all the active quality class definitions and related information. Primarily used by supporting systems such as name and id relationships or metadata overrides. 
+
+**Response Format**
+
+```
+[
+    {
+        "class_key": "quality",
+        "class_value": "2",
+        "class_properties": {
+        "name": "gold"
+        },
+        "class_type": "card",
+        "game_id": 1
+    },
+    ...
+]
+```
+
 ### GET /quality/{quality}
 
 Shows the specified quality class definition and related information. Primarily used by supporting systems such as name and id relationships or metadata overrides. 
