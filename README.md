@@ -645,7 +645,7 @@ Returns the inventory of the user with address ```address```, including token, s
 
 ## DeckString APIs
 
-[DeckStrings](https://github.com/fuelgames/deckstring) are a convenient standard for allowing applications to import and export decks. The following APIs provide a convenient interface for basic deck string operations. 
+DeckStrings are a convenient standard for allowing applications to import and export decks. The following APIs provide a convenient interface for basic deck string operations. 
 
 ### POST /deck
 
